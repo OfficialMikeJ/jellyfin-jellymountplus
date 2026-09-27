@@ -25,5 +25,23 @@
         "version": "1.0.1.0"
       }
     ]
+  },
+  {
+    "category": "General",
+    "description": "Skin Manager for Jellyfin \u2014 pick a skin, apply it via Branding custom CSS. Ported to Jellyfin 12.1 and bundled with the JellymountPlus skin.",
+    "guid": "e9ca8b8e-ca6d-40e7-85dc-58e536df8eb3",
+    "name": "SkinManager",
+    "overview": "Fork of the community Skin Manager plugin, ported to Jellyfin 12.1, with JellymountPlus bundled as a built-in skin plus the full community skins feed.",
+    "owner": "OfficialMikeJ",
+    "versions": [
+      {
+        "changelog": "Ported to Jellyfin 12.1 (net10.0). JellymountPlus bundled as a built-in skin; community skins feed mirrored.",
+        "checksum": "5c90d084f1f93909f903da39b0612f82",
+        "sourceUrl": "https://officialmikej.github.io/jellyfin-jellymountplus/SkinManagerPlugin_2.2.0.zip",
+        "targetAbi": "12.1.0.0",
+        "timestamp": "2026-09-27T18:39:02Z",
+        "version": "2.2.0.0"
+      }
+    ]
   }
 ]
