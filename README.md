@@ -150,3 +150,13 @@ powershell -File build.ps1    # Windows
   `window.ApiClient` (extras) or already rendered by Jellyfin (theme).
 - The theme adds zero UI: every visible control is Jellyfin's own.
 - Animations use transform/opacity only; reduced-motion respected.
+
+## Alternative: SkinManager plugin
+
+This repo also ships a Jellyfin 12.1 port of the community **Skin Manager**
+plugin (`skinmanager/`, forked from danieladov/jellyfin-plugin-skin-manager).
+It appears in the same repository catalog as **SkinManager** and applies skins
+by writing an `@import` into Branding → Custom CSS. JellymountPlus is bundled
+as its first skin, importing `theme.css` from GitHub Pages — plus the full
+community skins list. Use it if you want a skin picker UI, per-skin option
+toggles, or to verify the theme applies through a second, proven code path.
