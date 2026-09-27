@@ -8,12 +8,12 @@
     "owner": "OfficialMikeJ",
     "versions": [
       {
-        "changelog": "Ported to Jellyfin 12.1 (net10.0). JellymountPlus bundled as a built-in skin; community skins feed mirrored.",
-        "checksum": "5c90d084f1f93909f903da39b0612f82",
-        "sourceUrl": "https://officialmikej.github.io/jellyfin-jellymountplus/SkinManagerPlugin_2.2.0.zip",
+        "changelog": "JellymountPlus skin is now fully embedded in the plugin \u2014 no external CSS link. Fixed missing embedded resources.",
+        "checksum": "1a02d4c10d530bd467e90a45a70dfc90",
+        "sourceUrl": "https://officialmikej.github.io/jellyfin-jellymountplus/SkinManagerPlugin_2.2.1.zip",
         "targetAbi": "12.1.0.0",
-        "timestamp": "2026-09-27T18:39:02Z",
-        "version": "2.2.0.0"
+        "timestamp": "2026-09-27T18:52:57Z",
+        "version": "2.2.1.0"
       }
     ]
   }
