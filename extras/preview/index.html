@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JellymountPlus — Preview Harness</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script>
+/* ?themeonly=1 loads ONLY the shippable theme bundle — no extras JS. */
+window.__themeOnly = /themeonly/.test(location.search);
+(function () {
+  var l = document.createElement('link');
+  l.rel = 'stylesheet';
+  l.href = window.__themeOnly ? '../../dist/jellymountplus.css' : '../../styles/jellymountplus.css';
+  document.head.appendChild(l);
+  if (!window.__themeOnly) {
+    ['jellymountplus.js','navigation.js','hero.js','rails.js','hover-preview.js','details.js']
+      .forEach(function (f) {
+        var s = document.createElement('script');
+        s.src = '../scripts/' + f;
+        s.defer = true;
+        document.head.appendChild(s);
+      });
+  }
+})();
+</script>
+<style>
+  /* Harness-only helpers: minimal MUI toolbar mock + page shell.
+     (The real app supplies its own base styles; this approximates it.) */
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { min-height: 200vh; }
+  .MuiAppBar-root { position: fixed; top: 0; left: 0; right: 0; }
+  .MuiToolbar-root { display: flex; align-items: center; }
+  .MuiStack-root { display: flex; align-items: center; gap: 4px; flex-direction: row; }
+  .MuiButton-root { display: inline-flex; align-items: center; background: none; border: 0; cursor: pointer;
+    font: inherit; gap: 4px; text-decoration: none; padding: 6px 10px; }
+  .MuiIconButton-root { display: inline-flex; align-items: center; justify-content: center; background: none;
+    border: 0; cursor: pointer; padding: 8px; border-radius: 50%; }
+  .MuiAvatar-root { width: 32px; height: 32px; border-radius: 50%; background: #0064ff; color: #fff;
+    display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; }
+  .material-icons { font-family: 'Material Icons'; font-size: 24px; font-style: normal;
+    display: inline-block; line-height: 1; text-transform: none; letter-spacing: normal;
+    word-wrap: normal; white-space: nowrap; direction: ltr; -webkit-font-smoothing: antialiased; }
+  .page { position: relative; }
+  .itemsContainer { }
+  .scrollSlider { white-space: nowrap; }
+  .scrollSlider .itemsContainer { display: inline-flex; }
+  [is="emby-scroller"] { display: block; overflow: hidden; }
+  .cardPadder { }
+  /* Stock jellyfin card.scss provides these aspect paddings — the theme
+     relies on them, so the harness mirrors them verbatim. */
+  .cardPadder-overflowPortrait { padding-bottom: 150%; }
+  .cardPadder-overflowBackdrop { padding-bottom: 56.25%; }
+  .cardPadder-overflowSmallBackdrop { padding-bottom: 56.25%; }
+  .cardPadder-overflowSquare { padding-bottom: 100%; }
+  .cardScalable { position: relative; }
+  /* Stock card.scss rules the theme relies on */
+  .cardScalable .cardImageContainer { height: 100%; width: 100%; }
+  .cardContent { overflow: hidden; position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
+  .cardImageContainer { display: flex; align-items: center; justify-content: center; }
+  .cardBox { position: relative; } /* stock: block-level, fills card width */
+  .innerCardFooter { }
+  .cardFooter { position: relative; }
+  .harness-note { position: fixed; bottom: 10px; left: 10px; z-index: 9999; font: 11px monospace;
+    background: #111; color: #0f0; padding: 4px 8px; border-radius: 4px; opacity: .8; }
+  /* scrolled state demo */
+  .solid .MuiAppBar-root { background: #070707 !important; }
+</style>
+</head>
+<body>
+
+<!-- Mock modern-app toolbar (approximates MUI AppBar DOM) -->
+<header class="MuiAppBar-root MuiAppBar-positionFixed MuiAppBar-colorTransparent">
+  <div class="MuiToolbar-root MuiToolbar-regular padded-left padded-right">
+    <div class="MuiStack-root">
+      <a class="MuiButton-root" href="#/"><span class="material-icons" style="font-size:1.2em">dns</span> Demo Server</a>
+      <a class="MuiButton-root" href="#/home?tab=1"><span class="material-icons" style="font-size:1.1em">favorite</span> Favorites</a>
+      <a class="MuiButton-root" href="#/movies"><span class="material-icons" style="font-size:1.1em">movie</span> Movies</a>
+      <a class="MuiButton-root" href="#/tv"><span class="material-icons" style="font-size:1.1em">tv</span> TV Shows</a>
+      <a class="MuiButton-root" href="#/boxsets"><span class="material-icons" style="font-size:1.1em">collections</span> Collections</a>
+      <a class="MuiButton-root" href="#/livetv"><span class="material-icons" style="font-size:1.1em">live_tv</span> Live TV</a>
+    </div>
+    <div style="flex:1"></div>
+    <button class="MuiIconButton-root"><span class="material-icons">search</span></button>
+    <button class="MuiIconButton-root"><span class="MuiAvatar-root">JD</span></button>
+  </div>
+</header>
+<!-- OffsetAppBar spacer (real markup: empty aria-hidden div) -->
+<div aria-hidden="true" style="height:48px;width:100%;flex-shrink:0"></div>
+
+<!-- Mock home page: real class names from jellyfin-web 12.1 -->
+<div id="indexPage" data-role="page" class="page homePage libraryPage allLibraryPage pageWithAbsoluteTabs withTabs">
+  <div class="tabContent pageTabContent" id="homeTab" data-index="0">
+    <div class="sections"></div>
+  </div>
+  <div class="tabContent pageTabContent" id="favoritesTab" data-index="1" style="display:none">
+    <div class="sections"></div>
+  </div>
+</div>
+
+<div class="harness-note">JellymountPlus preview harness — mocked ApiClient + DOM</div>
+
+<script>
+/* Status probe: after settle, report theme state into the note + console. */
+window.JellymountPlusConfig = { debug: true };
+window.onerror = function (msg, src, line) {
+  console.error('[harness onerror]', msg, src, line);
+};
+setTimeout(function () {
+  var s = {
+    hero: !!document.querySelector('.jmp-hero'),
+    heroCards: document.querySelectorAll('.jmp-hero-card').length,
+    playBtn: !!document.querySelector('.jmp-hero-actions .jmp-btn-play'),
+    logo: !!document.querySelector('.jmp-logo'),
+    user: !!document.querySelector('.jmp-user-name'),
+    badges: document.querySelectorAll('.jmp-card-badge').length,
+    jmpLoaded: !!(window.JellymountPlus && window.JellymountPlus.__loaded)
+  };
+  console.log('[harness-state]', JSON.stringify(s));
+  /* Geometry probe: card widths + gaps */
+  var cw = document.querySelectorAll('.verticalSection')[0];
+  var cwCards = cw ? cw.querySelectorAll('.card') : [];
+  if (cwCards.length >= 2) {
+    var r0 = cwCards[0].getBoundingClientRect(), r1 = cwCards[1].getBoundingClientRect();
+    var imgEl = cwCards[0].querySelector('.cardImageContainer');
+    var img0 = imgEl.getBoundingClientRect();
+    var pad = cwCards[0].querySelector('.cardPadder').getBoundingClientRect();
+    var sc = cwCards[0].querySelector('.cardScalable').getBoundingClientRect();
+    var cs = getComputedStyle(imgEl);
+    console.log('[geom] cw card w=' + Math.round(r0.width) + ' h=' + Math.round(r0.height) +
+      ' img=' + Math.round(img0.width) + 'x' + Math.round(img0.height) +
+      ' pad=' + Math.round(pad.width) + 'x' + Math.round(pad.height) +
+      ' scalable=' + Math.round(sc.width) + 'x' + Math.round(sc.height) +
+      ' pos=' + cs.position + ' disp=' + cs.display +
+      ' gap=' + Math.round(r1.left - r0.right));
+  }
+  var posters = document.querySelectorAll('.overflowPortraitCard');
+  if (posters.length) {
+    var rp = posters[0].getBoundingClientRect();
+    console.log('[geom] poster w=' + Math.round(rp.width) + ' h=' + Math.round(rp.height));
+  }
+  var hero = document.querySelector('.jmp-hero');
+  if (hero) {
+    var hr = hero.getBoundingClientRect();
+    console.log('[geom] hero h=' + Math.round(hr.height) + ' (' + Math.round(hr.height / window.innerHeight * 100) + 'vh)');
+  }
+  var n = document.querySelector('.harness-note');
+  if (n) n.textContent = JSON.stringify(s);
+
+  /* ?scrolled=1 — scroll the page so the nav's scrolled state can be
+     verified in a static screenshot. */
+  if (/scrolled=/.test(location.search)) {
+    setTimeout(function () { window.scrollTo(0, 700); }, 500);
+    setTimeout(function () {
+      console.log('[nav-state]', JSON.stringify({
+        scrolled: document.documentElement.classList.contains('jmp-nav-solid'),
+        scrollY: window.scrollY,
+        docTop: document.documentElement.scrollTop,
+        docH: document.documentElement.scrollHeight,
+        clientH: document.documentElement.clientHeight
+      }));
+    }, 2600);
+  }
+
+  /* ?previewtest=1 — synthesize a card hover so the expanded preview
+     can be verified in a static screenshot. */
+  if (/previewtest/.test(location.search)) {
+    setTimeout(function () {
+      var card = document.querySelectorAll('.verticalSection')[1]
+        .querySelectorAll('.card')[2];
+      if (card) {
+        card.dispatchEvent(new PointerEvent('pointerover', { bubbles: true, pointerType: 'mouse' }));
+        setTimeout(function () {
+          var pv = document.querySelector('.jmp-preview');
+          console.log('[preview-state]', JSON.stringify({
+            open: !!pv, cls: pv ? pv.className : '',
+            left: pv ? Math.round(pv.getBoundingClientRect().left) : -1,
+            top: pv ? Math.round(pv.getBoundingClientRect().top) : -1,
+            w: pv ? Math.round(pv.getBoundingClientRect().width) : -1
+          }));
+        }, 900);
+      }
+    }, 400);
+  }
+}, 3500);
+</script>
+<script>
+/* ============================================================
+   Mock Jellyfin environment
+   ============================================================ */
+(function () {
+  /* Fake artwork as offline SVG data URIs */
+  function poster(title, hue, w, h) {
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + w + '" height="' + h + '">' +
+      '<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">' +
+      '<stop offset="0" stop-color="hsl(' + hue + ',55%,28%)"/>' +
+      '<stop offset="1" stop-color="hsl(' + ((hue + 40) % 360) + ',60%,14%)"/></linearGradient></defs>' +
+      '<rect width="100%" height="100%" fill="url(#g)"/>' +
+      '<text x="50%" y="52%" fill="rgba(255,255,255,.92)" font-family="Arial" font-size="' + Math.round(w / 9) +
+      '" font-weight="700" text-anchor="middle" dominant-baseline="middle">' + title + '</text></svg>';
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  }
+  function logoImg(title) {
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="900" height="180" viewBox="0 0 900 180">' +
+      '<text x="0" y="125" fill="#fff" font-family="Arial Black,Arial" font-size="64" font-weight="900" ' +
+      'letter-spacing="2" textLength="880" lengthAdjust="spacingAndGlyphs" ' +
+      'style="text-transform:uppercase">' + title + '</text></svg>';
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  }
+
+  var NOW = Date.now();
+  var DAY = 86400000;
+  function item(id, name, type, year, rating, rt, hue, extra) {
+    var i = Object.assign({
+      Id: id, Name: name, Type: type, ServerId: 'srv',
+      ProductionYear: year, OfficialRating: rating, RunTimeTicks: rt,
+      CommunityRating: 6.4 + (parseInt(id, 16) % 34) / 10,
+      Overview: 'In a world stitched together by chance, ' + name +
+        ' follows the people caught between what they built and what they owe. A slow-burn drama about family, gravity and second chances.',
+      MediaType: 'Video', IsFolder: type === 'Series',
+      ImageTags: { Primary: 'p' + id, Logo: (parseInt(id, 16) % 3 ? 'l' + id : null) },
+      BackdropImageTags: ['b' + id],
+      UserData: { PlaybackPositionTicks: 0, Played: false, IsFavorite: false },
+      DateCreated: new Date(NOW - (parseInt(id, 16) % 60) * DAY).toISOString(),
+      PremiereDate: new Date(NOW - (parseInt(id, 16) % 400) * DAY).toISOString(),
+      _hue: hue
+    }, extra || {});
+    if (!i.ImageTags.Logo) delete i.ImageTags.Logo;
+    return i;
+  }
+
+  var ITEMS = {};
+  var list = [
+    item('a1', 'Meridian Falls', 'Movie', 2024, 'PG-13', 7920000000, 210, { UserData: { IsFavorite: true, PlaybackPositionTicks: 4100000000, Played: false } }),
+    item('a2', 'The Harbor Line', 'Series', 2023, 'TV-MA', 0, 190, { ChildCount: 3 }),
+    item('a3', 'Night Cartography', 'Movie', 2025, 'R', 8580000000, 280),
+    item('a4', 'Copper Ridge', 'Series', 2024, 'TV-14', 0, 20, { ChildCount: 2 }),
+    item('a5', 'Salt Meridian', 'Movie', 2022, 'PG-13', 6900000000, 320),
+    item('a6', 'The Quiet Meridian', 'Movie', 2025, 'PG', 6300000000, 160, { DateCreated: new Date(NOW - 4 * DAY).toISOString() }),
+    item('a7', 'Daylight Protocol', 'Series', 2025, 'TV-MA', 0, 250, { ChildCount: 1, DateCreated: new Date(NOW - 2 * DAY).toISOString() }),
+    item('a8', 'Atlas of Rivers', 'Movie', 2021, 'PG-13', 8100000000, 30),
+    item('a9', 'Winter Branches', 'Series', 2020, 'TV-PG', 0, 330, { ChildCount: 4 }),
+    item('b1', 'Glasshouse Nine', 'Movie', 2023, 'R', 7600000000, 45),
+    item('b2', 'Field Notes', 'Series', 2024, 'TV-14', 0, 200),
+    item('b3', 'The Long Arcade', 'Movie', 2024, 'PG-13', 7000000000, 300)
+  ];
+  list.forEach(function (i) { ITEMS[i.Id] = i; });
+
+  /* Resume items for Continue Watching */
+  ITEMS['a1'].UserData.PlaybackPositionTicks = 4100000000;
+  ITEMS['a5'].UserData.PlaybackPositionTicks = 2300000000;
+  var ep1 = item('e1', 'Pilot Light', 'Episode', 2024, 'TV-MA', 2700000000, 190,
+    { SeriesId: 'a2', SeriesName: 'The Harbor Line', ParentIndexNumber: 1, IndexNumber: 3,
+      ImageTags: { Primary: 'pe1', Thumb: 'te1' }, UserData: { PlaybackPositionTicks: 1500000000, IsFavorite: false, Played: false } });
+  var ep2 = item('e2', 'Smoke Season', 'Episode', 2024, 'TV-14', 2600000000, 20,
+    { SeriesId: 'a4', SeriesName: 'Copper Ridge', ParentIndexNumber: 2, IndexNumber: 1,
+      ImageTags: { Primary: 'pe2', Thumb: 'te2' }, UserData: { PlaybackPositionTicks: 600000000, IsFavorite: false, Played: false } });
+  ITEMS['e1'] = ep1; ITEMS['e2'] = ep2;
+
+  /* Minimal emby-itemscontainer registration so theme JS upgrades work */
+  var registry = {};
+  document.registerElement = function (name, def) { registry[name] = def; };
+  var origCreate = Document.prototype.createElement.bind(document);
+  document.createElement = function (tag, is) {
+    var el = origCreate(tag);
+    if (is && registry[is]) {
+      el.setAttribute('is', is);
+      if (registry[is].prototype) Object.setPrototypeOf(el, registry[is].prototype);
+      if (registry[is].prototype && registry[is].prototype.createdCallback)
+        registry[is].prototype.createdCallback.call(el);
+      var mo = new MutationObserver(function () {
+        if (el.isConnected && registry[is].prototype.attachedCallback) {
+          registry[is].prototype.attachedCallback.call(el);
+          mo.disconnect();
+        }
+      });
+      mo.observe(document.body, { childList: true, subtree: true });
+    }
+    return el;
+  };
+  /* For markup-created [is=] elements: no upgrade needed in harness. */
+
+  /* Native-looking click handling for itemAction in the harness */
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('.itemAction[data-action]');
+    if (!a) return;
+    var action = a.getAttribute('data-action');
+    if (action && action !== 'none' && action !== 'link') {
+      e.preventDefault();
+      console.info('[harness] Jellyfin action "' + action + '" on item ' + a.getAttribute('data-id') +
+        ' (pos=' + (a.getAttribute('data-positionticks') || 0) + ')');
+    } else if (action === 'link') {
+      e.preventDefault();
+      console.info('[harness] navigate → ' + (a.getAttribute('href') || 'details?id=' + a.getAttribute('data-id')));
+    }
+  }, true);
+
+  /* ---- Mock ApiClient ---- */
+  var KEY = 'jmp-favs';
+  var favs = {};
+  try { favs = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
+  Object.keys(ITEMS).forEach(function (id) {
+    if (favs[id] != null) ITEMS[id].UserData.IsFavorite = favs[id];
+  });
+
+  window.ApiClient = {
+    getCurrentUserId: function () { return 'user1'; },
+    serverId: function () { return 'srv'; },
+    getCurrentUser: function () { return Promise.resolve({ Id: 'user1', Name: 'Jane Demo' }); },
+    getItem: function (uid, id) { return Promise.resolve(ITEMS[id] || null); },
+    updateFavoriteStatus: function (id, fav) {
+      favs[id] = fav;
+      try { localStorage.setItem(KEY, JSON.stringify(favs)); } catch (e) {}
+      if (ITEMS[id]) ITEMS[id].UserData.IsFavorite = fav;
+      return Promise.resolve({ IsFavorite: fav });
+    },
+    getUrl: function (path, params) {
+      params = params || {};
+      var m = path.match(/Items\/([a-z0-9]+)\/Images\/(\w+)/);
+      if (m) {
+        var it = ITEMS[m[1]];
+        var hue = it ? it._hue : 200;
+        var type = m[2];
+        if (type === 'Logo') return it && it.ImageTags.Logo ? logoImg(it.Name) : '';
+        if (type === 'Backdrop' || type === 'Thumb') return poster(it ? it.Name : '', hue, 1600, 900);
+        return poster(it ? it.Name : '', hue, 400, 600);
+      }
+      return path + '?' + Object.keys(params).map(function (k) { return k + '=' + params[k]; }).join('&');
+    },
+    getJSON: function (url) {
+      /* Route the few endpoints our scripts call */
+      if (/Items\?/.test(url) && /ParentId=/.test(url) && /IsResumable/.test(url)) {
+        var mPid = url.match(/ParentId=([a-z0-9]+)/);
+        var sid = mPid ? mPid[1] : null;
+        var found = Object.keys(ITEMS).filter(function (k) {
+          return ITEMS[k].SeriesId === sid && ITEMS[k].UserData.PlaybackPositionTicks > 0;
+        });
+        return Promise.resolve({ Items: found.map(function (k) { return ITEMS[k]; }) });
+      }
+      if (/Shows\/NextUp/.test(url)) {
+        var sid2 = (url.match(/SeriesId=([a-z0-9]+)/) || [])[1];
+        var eps = Object.keys(ITEMS).filter(function (k) { return ITEMS[k].SeriesId === sid2; });
+        return Promise.resolve({ Items: eps.map(function (k) { return ITEMS[k]; }) });
+      }
+      if (/Items\/[a-z0-9]+/.test(url) && !/Items\?/.test(url)) {
+        var idm = url.match(/Items\/([a-z0-9]+)/)[1];
+        return Promise.resolve(ITEMS[idm]);
+      }
+      if (/[?&]Ids=/.test(url)) {
+        var mIds = url.match(/[?&]Ids=([^&]+)/);
+        var idlist = mIds ? mIds[1].split(',') : [];
+        return Promise.resolve({ Items: idlist.map(function (k) { return ITEMS[k]; }).filter(Boolean) });
+      }
+      /* Default: featured list = all movies+series */
+      return Promise.resolve({ Items: list.concat([ep1, ep2]) });
+    }
+  };
+  window.ServerConnections = { currentApiClient: function () { return window.ApiClient; } };
+
+  /* ---- Build mock home sections ---- */
+  function card(i, shape, extraClass) {
+    var padder = shape === 'landscape' ? 'cardPadder-overflowBackdrop' : 'cardPadder-overflowPortrait';
+    var cardCls = shape === 'landscape' ? 'card overflowBackdropCard itemAction' : 'card overflowPortraitCard itemAction';
+    var w = shape === 'landscape' ? 640 : 400, h = shape === 'landscape' ? 360 : 600;
+    var img = i.Type === 'Episode' ? poster(i.SeriesName, i._hue, 640, 360) : poster(i.Name, i._hue, w, h);
+    var pct = (i.UserData.PlaybackPositionTicks && i.RunTimeTicks) ?
+      Math.round(i.UserData.PlaybackPositionTicks / i.RunTimeTicks * 100) : 0;
+    var prog = pct ? '<div class="itemProgressBar"><div class="itemProgressBarForeground" style="width:' + pct + '%"></div></div>' : '';
+    var sub = i.Type === 'Episode' ? ('S' + i.ParentIndexNumber + ' E' + i.IndexNumber + ' — ' + i.Name) :
+      (i.ProductionYear + (i.OfficialRating ? ' · ' + i.OfficialRating : ''));
+    var ticks = i.UserData.PlaybackPositionTicks || 0;
+    return '<div class="' + cardCls + ' ' + (extraClass || '') + '" data-id="' + i.Id + '" data-serverid="srv" ' +
+      'data-type="' + i.Type + '" data-mediatype="Video" data-isfolder="' + (i.IsFolder ? 'true' : 'false') + '" ' +
+      'data-positionticks="' + ticks + '" data-action="link">' +
+      '<div class="cardBox"><div class="cardScalable">' +
+      '<div class="cardPadder ' + padder + '"></div>' +
+      '<a class="cardImageContainer coveredImage cardContent itemAction" data-action="link" style="background-image:url(&quot;' +
+      img + '&quot;)"></a>' + prog +
+      '</div>' +
+      '<div class="cardFooter"><div class="cardText">' + (i.Type === 'Episode' ? i.SeriesName : i.Name) +
+      '</div><div class="cardText cardText-secondary">' + sub + '</div></div>' +
+      '</div></div>';
+  }
+
+  function section(title, items, shape) {
+    return '<div class="verticalSection">' +
+      '<div class="sectionTitleContainer sectionTitleContainer-cards"><h2 class="sectionTitle sectionTitle-cards">' +
+      title + '</h2><a class="sectionTitleTextButton button-flat button-flat-mini">See All</a></div>' +
+      '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">' +
+      '<div class="scrollSlider"><div is="emby-itemscontainer" class="itemsContainer">' +
+      items.map(function (i) { return card(i, shape); }).join('') +
+      '</div></div></div></div>';
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var secs = document.querySelector('#homeTab .sections');
+    secs.innerHTML =
+      section('Continue Watching', [ITEMS.a1, ep1, ITEMS.a5, ep2], 'landscape') +
+      section('Recently Added', [ITEMS.a6, ITEMS.a7, ITEMS.b2, ITEMS.b3, ITEMS.a3, ITEMS.a8, ITEMS.b1, ITEMS.a9, ITEMS.a2], 'poster') +
+      section('Movies', [ITEMS.a1, ITEMS.a3, ITEMS.a5, ITEMS.a6, ITEMS.a8, ITEMS.b1, ITEMS.b3], 'poster') +
+      section('TV Shows', [ITEMS.a2, ITEMS.a4, ITEMS.a7, ITEMS.a9, ITEMS.b2], 'poster') +
+      section('My List', [ITEMS.a1, ITEMS.a3], 'poster');
+
+    /* Fire the same event the real Page component dispatches */
+    var page = document.getElementById('indexPage');
+    ['viewbeforeshow', 'pagebeforeshow', 'viewshow', 'pageshow'].forEach(function (name) {
+      page.dispatchEvent(new CustomEvent(name, {
+        bubbles: true,
+        detail: { isRestored: false, options: { enableMediaControl: true, supportsThemeMedia: true } }
+      }));
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

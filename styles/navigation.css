@@ -1,0 +1,259 @@
+/* ============================================================
+   JellymountPlus — Top Navigation
+   Transparent-over-hero bar that condenses to solid on scroll.
+   Covers the modern MUI toolbar (default layout) and the legacy
+   .skinHeader used by desktop-legacy / mobile-legacy / tv modes.
+   ============================================================ */
+
+/* ---------------- Modern layout (React/MUI app bar) ---------------- */
+
+header.MuiAppBar-root {
+    position: fixed;
+    background-color: rgba(9, 9, 14, 0.5);
+    background-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.72) 0%,
+        rgba(0, 0, 0, 0.35) 55%,
+        transparent 100%
+    );
+    box-shadow: none;
+    transition: background-color var(--jmp-dur-slow) var(--jmp-ease),
+                background-image var(--jmp-dur-slow) var(--jmp-ease),
+                box-shadow var(--jmp-dur-med) var(--jmp-ease);
+    backdrop-filter: none;
+    z-index: var(--jmp-z-nav);
+}
+
+/* Wordmark (pure-CSS, no JS needed): JellymountPlus mark injected as the
+   first toolbar item. Hidden when the optional JS layer injects its own
+   .jmp-logo element (html.jmp-logo-active). */
+header.MuiAppBar-root .MuiToolbar-root::before {
+    content: "";
+    display: inline-block;
+    width: 11rem;
+    height: 1.45rem;
+    margin-right: clamp(0.6rem, 1.4vw, 1.4rem);
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 560 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%231976FF'/%3E%3Cstop offset='1' stop-color='%230064FF'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='4' y='10' width='44' height='44' rx='10' fill='url(%23g)'/%3E%3Cpath d='M22.5 20.5v17.2c0 4.6-2.9 7.8-7.5 7.8-1 0-2-.2-2.9-.6l1.2-3.6c.5.2 1 .3 1.6.3 1.8 0 3-1.3 3-3.6V20.5h4.6zm14.4 7.4h-3.9v-5h3.9v-2.5h5.2v2.5h3.8v5h-3.8v9.6c0 1.7.9 2.6 2.4 2.6.7 0 1.3-.2 1.8-.5l.8 4c-1 .5-2.3.8-3.7.8-4.1 0-6.5-2.4-6.5-6.5v-10z' fill='%23fff'/%3E%3Ctext x='64' y='42' font-family='Arial,Helvetica,sans-serif' font-size='30' font-weight='700' letter-spacing='0.5' fill='%23fff'%3EJELLYMOUNT%3C/text%3E%3Ctext x='274' y='42' font-family='Arial,Helvetica,sans-serif' font-size='30' font-weight='700' letter-spacing='0.5' fill='%231976FF'%3EPLUS%3C/text%3E%3C/svg%3E") left center / contain no-repeat;
+    flex: 0 0 auto;
+}
+html.jmp-logo-active header.MuiAppBar-root .MuiToolbar-root::before {
+    display: none;
+}
+
+/* OffsetAppBar flips color to "default" once scrollTrigger trips — restyle it */
+header.MuiAppBar-root.MuiAppBar-colorDefault,
+header.MuiAppBar-root.MuiAppBar-colorPrimary,
+.jmp-nav-solid header.MuiAppBar-root {
+    background: var(--jmp-bg);
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0));
+    box-shadow: 0 1px 0 var(--jmp-border-soft);
+}
+
+header.MuiAppBar-root .MuiToolbar-root {
+    min-height: var(--jmp-nav-height);
+    padding-left: var(--jmp-page-gutter);
+    padding-right: var(--jmp-page-gutter);
+    gap: 0.25rem;
+}
+
+/* Nav link buttons (Home / Favorites / user views) */
+header.MuiAppBar-root .MuiButton-root {
+    color: var(--jmp-text-secondary);
+    font-family: var(--jmp-font);
+    font-weight: var(--jmp-font-weight-medium);
+    font-size: var(--jmp-font-size-sm);
+    text-transform: none;
+    letter-spacing: 0.01em;
+    padding: 0.4em 0.75em;
+    border-radius: 4px;
+    transition: color var(--jmp-dur-fast) var(--jmp-ease),
+                background-color var(--jmp-dur-fast) var(--jmp-ease);
+    white-space: nowrap;
+}
+
+header.MuiAppBar-root .MuiButton-root:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+header.MuiAppBar-root .MuiButton-root.MuiButton-colorPrimary,
+header.MuiAppBar-root .MuiButton-root[aria-current],
+header.MuiAppBar-root .MuiButton-root.jmp-nav-active {
+    color: #fff;
+    font-weight: var(--jmp-font-weight-semibold);
+}
+
+/* The icon inside nav buttons stays muted until hover */
+header.MuiAppBar-root .MuiButton-root .MuiButton-startIcon,
+header.MuiAppBar-root .MuiButton-root .MuiSvgIcon-root {
+    color: inherit;
+}
+
+/* Icon buttons (search / syncplay / remote play / avatar) */
+header.MuiAppBar-root .MuiIconButton-root {
+    color: var(--jmp-text-secondary);
+    transition: color var(--jmp-dur-fast) var(--jmp-ease),
+                transform var(--jmp-dur-fast) var(--jmp-ease);
+}
+header.MuiAppBar-root .MuiIconButton-root:hover {
+    color: #fff;
+}
+
+/* JellymountPlus logo element injected by scripts/navigation hooks */
+.jmp-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45em;
+    margin-right: clamp(0.6rem, 1.4vw, 1.6rem);
+    color: #fff;
+    text-decoration: none;
+    font-weight: var(--jmp-font-weight-bold);
+    font-size: clamp(1rem, 1.35vw, 1.35rem);
+    letter-spacing: 0.02em;
+    line-height: 1;
+    white-space: nowrap;
+}
+.jmp-logo img,
+.jmp-logo svg {
+    height: 1.55em;
+    width: auto;
+    display: block;
+}
+.jmp-logo .jmp-logo-text {
+    font-size: inherit;
+}
+.jmp-logo .jmp-logo-plus {
+    color: var(--jmp-blue-hover);
+}
+
+/* Once the logo is injected, the stock server button is redundant */
+html.jmp-logo-active header.MuiAppBar-root .MuiToolbar-root > .MuiStack-root > .MuiButton-root:first-child {
+    display: none;
+}
+
+/* User area: avatar + name + caret injected by JS */
+.jmp-user {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    margin-left: 0.35em;
+}
+.jmp-user-name {
+    font-size: var(--jmp-font-size-sm);
+    font-weight: var(--jmp-font-weight-medium);
+    color: var(--jmp-text-secondary);
+    max-width: 9em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.jmp-user-caret {
+    font-size: 1.15em;
+    color: var(--jmp-text-muted);
+    transition: transform var(--jmp-dur-fast) var(--jmp-ease);
+}
+.jmp-user:hover .jmp-user-caret {
+    transform: translateY(1px);
+    color: #fff;
+}
+
+/* User dropdown menu (MUI Menu / Popover) */
+.MuiPopover-root .MuiPaper-root,
+.MuiMenu-paper,
+.MuiPopover-paper {
+    background: var(--jmp-surface-1);
+    color: var(--jmp-text-primary);
+    border: 1px solid var(--jmp-border-soft);
+    border-radius: 6px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.55);
+}
+.MuiMenuItem-root {
+    font-family: var(--jmp-font);
+    font-size: var(--jmp-font-size-sm);
+}
+.MuiMenuItem-root:hover,
+.MuiMenuItem-root.Mui-focusVisible {
+    background: var(--jmp-surface-2);
+}
+
+/* ---------------- Legacy layout (.skinHeader) ---------------- */
+
+.skinHeader,
+.skinHeader.semiTransparent {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: transparent;
+    background-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.72) 0%,
+        rgba(0, 0, 0, 0.35) 55%,
+        transparent 100%
+    );
+    border-bottom: none;
+    transition: background-color var(--jmp-dur-slow) var(--jmp-ease);
+    z-index: var(--jmp-z-nav);
+}
+
+.skinHeader.skinHeader-withBackground,
+.jmp-nav-solid .skinHeader {
+    background: var(--jmp-bg);
+    box-shadow: 0 1px 0 var(--jmp-border-soft);
+}
+
+.skinHeader .headerRight,
+.skinHeader .headerLeft,
+.skinHeader .headerTabs {
+    align-items: center;
+}
+
+.skinHeader .headerButton,
+.skinHeader .emby-button,
+.skinHeader .headerTabs .emby-button {
+    color: var(--jmp-text-secondary);
+    font-family: var(--jmp-font);
+    font-weight: var(--jmp-font-weight-medium);
+    font-size: var(--jmp-font-size-sm);
+    text-transform: none;
+}
+.skinHeader .headerButton:hover,
+.skinHeader .emby-button:hover,
+.skinHeader .headerTabs .emby-button:hover {
+    color: #fff;
+}
+.skinHeader .headerTabs .emby-button.emby-tab-button-active {
+    color: #fff;
+    font-weight: var(--jmp-font-weight-semibold);
+}
+
+/* Page title inside legacy header */
+.pageTitle,
+.pageTitleWithDefaultLogo {
+    font-weight: var(--jmp-font-weight-bold);
+}
+
+/* ---------------- Drawer (mobile nav) ---------------- */
+
+.MuiDrawer-root .MuiPaper-root,
+.mainDrawer {
+    background: var(--jmp-surface-1);
+    color: var(--jmp-text-primary);
+    border-right: 1px solid var(--jmp-border-soft);
+}
+.MuiDrawer-root .MuiListItemButton-root:hover,
+.MuiDrawer-root .MuiListItemButton-root.Mui-selected {
+    background: var(--jmp-surface-2);
+}
+.MuiDrawer-root .MuiListItemButton-root.Mui-selected {
+    border-right: 3px solid var(--jmp-blue);
+}
+
+/* ---------------- Layout offsets ---------------- */
+
+/* Pages must slide under the transparent nav — remove the top padding
+   Jellyfin adds for the fixed header on content pages. */
+.layout-desktop .page:not(.itemDetailPage):not(.homePage),
+.layout-desktop .libraryPage {
+    padding-top: 0;
+}

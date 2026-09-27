@@ -1,0 +1,22 @@
+/* ============================================================
+   JellymountPlus — Master stylesheet
+   Import order matters: tokens first, accessibility last so its
+   overrides win. When files are hosted under the Jellyfin
+   webroot this file can be linked or @import'ed directly.
+   For Dashboard → Branding → Custom CSS use dist/jellymountplus.css
+   (the flattened bundle) instead.
+   ============================================================ */
+
+@import "./variables.css";
+@import "./base.css";
+@import "./navigation.css";
+@import "./hero.css";
+@import "./rails.css";
+@import "./cards.css";
+@import "./hover-preview.css";
+@import "./details.css";
+@import "./search.css";
+@import "./livetv.css";
+@import "./player.css";
+@import "./responsive.css";
+@import "./accessibility.css";

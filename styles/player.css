@@ -1,0 +1,185 @@
+/* ============================================================
+   JellymountPlus — Video Player (OSD restyle only)
+   Dark translucent auto-hiding controls, white icons, blue seek.
+   Playback, transcoding, audio and subtitle systems untouched.
+   ============================================================ */
+
+/* ---------- Bottom control bar ---------- */
+
+.videoOsdBottom {
+    background: linear-gradient(to top,
+        rgba(7, 7, 7, 0.85) 0%,
+        rgba(7, 7, 7, 0.45) 45%,
+        transparent 100%);
+    padding-top: 9em;
+    color: #fff;
+}
+
+.videoOsdBottom .osdControls {
+    padding: 0 var(--jmp-page-gutter);
+    max-width: none;
+}
+
+.videoOsdBottom .buttons {
+    gap: 0.25em;
+}
+
+/* Control buttons — white, quiet until hover */
+.videoOsdBottom .paper-icon-button-light,
+.videoOsdBottom .emby-button,
+.videoOsdBottom button[is="paper-icon-button-light"] {
+    color: rgba(255, 255, 255, 0.85);
+    border-radius: 4px;
+    transition: color var(--jmp-dur-fast) var(--jmp-ease),
+                background-color var(--jmp-dur-fast) var(--jmp-ease),
+                transform var(--jmp-dur-fast) var(--jmp-ease);
+}
+.videoOsdBottom .paper-icon-button-light:hover,
+.videoOsdBottom button[is="paper-icon-button-light"]:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* Main play/pause pops slightly larger */
+.videoOsdBottom .btnPause .material-icons,
+.videoOsdBottom .btnPlay .material-icons,
+.videoOsdBottom [data-action="playpause"] .material-icons {
+    font-size: 2.1em;
+}
+
+/* ---------- Seek / position slider ---------- */
+
+.videoOsdBottom .osdPositionSliderContainer,
+.videoOsdBottom .mdl-slider-container {
+    padding-top: 0;
+}
+
+.videoOsdBottom .mdl-slider__background-lower,
+.videoOsdBottom .mdl-slider .mdl-slider__background-lower,
+.osdPositionSlider .mdl-slider__background-lower,
+.sliderValue {
+    background: var(--jmp-blue) !important;
+}
+
+.videoOsdBottom .mdl-slider__background-upper {
+    background: rgba(255, 255, 255, 0.28) !important;
+}
+
+.videoOsdBottom .mdl-slider::-webkit-slider-thumb,
+.videoOsdBottom .mdl-slider::-moz-range-thumb {
+    background: #fff;
+    border: none;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+}
+
+/* Buffered portion stays subtle */
+.videoOsdBottom .mdl-slider__background-flex,
+.osdPositionSlider .slider-buffer {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* ---------- Time text ---------- */
+
+.osdTimeText,
+.osdMediaInfo,
+.osdTitle,
+.osdTitleSmall,
+.osdSecondaryMediaInfo {
+    color: rgba(255, 255, 255, 0.9);
+    font-family: var(--jmp-font);
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+}
+
+.osdTitle {
+    font-weight: var(--jmp-font-weight-semibold);
+}
+.osdTitleSmall,
+.osdSecondaryMediaInfo {
+    color: rgba(255, 255, 255, 0.65);
+    font-weight: var(--jmp-font-weight-medium);
+}
+
+/* ---------- Volume ---------- */
+
+.osdVolumeSliderContainer .mdl-slider__background-lower {
+    background: rgba(255, 255, 255, 0.9) !important;
+}
+.volumeButtons .paper-icon-button-light {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* ---------- Top bar ---------- */
+
+.skinHeader-withBackground.osdHeader,
+.osdHeader {
+    background: linear-gradient(to bottom,
+        rgba(7, 7, 7, 0.8) 0%,
+        rgba(7, 7, 7, 0.3) 60%,
+        transparent 100%);
+    color: #fff;
+}
+
+.osdHeader .headerButton {
+    color: rgba(255, 255, 255, 0.85);
+}
+.osdHeader .headerButton:hover {
+    color: #fff;
+}
+
+/* ---------- Chapter preview bubble ---------- */
+
+.chapterThumbContainer {
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 10px 34px rgba(0, 0, 0, 0.7);
+}
+.chapterThumb {
+    border-radius: 6px;
+    border: 1px solid var(--jmp-border-soft);
+}
+.chapterThumbTextContainer {
+    background: rgba(7, 7, 7, 0.75);
+    border-radius: 4px;
+}
+.chapterThumbText {
+    color: #fff;
+    text-shadow: none;
+    font-weight: var(--jmp-font-weight-medium);
+}
+
+/* Chapter bubble dot on seek bar */
+.chapterBubblePosition .material-icons,
+.chapterMarker {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* ---------- Menus over video (subtitle/audio tracks, settings) ---------- */
+
+.videoOsdBottom .actionSheet,
+.videoPlayerOverlay .actionSheet,
+.upNextDialog,
+.playlist .listItem {
+    background: var(--jmp-surface-1);
+    color: var(--jmp-text-primary);
+    border-radius: 6px;
+}
+
+/* ---------- Up Next card ---------- */
+
+.upNextDialog,
+.upNextDialog-poster {
+    border-radius: 6px;
+}
+.upNextDialog {
+    background: var(--jmp-surface-1);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+}
+.upNextDialog .upNextDialog-countdown {
+    color: var(--jmp-blue-hover);
+}
+
+/* ---------- SyncPlay group badge ---------- */
+
+.syncPlayContainer .syncPlayIconCircle {
+    background: var(--jmp-blue);
+}

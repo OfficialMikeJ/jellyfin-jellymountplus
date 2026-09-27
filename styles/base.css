@@ -1,0 +1,271 @@
+/* ============================================================
+   JellymountPlus — Base
+   Global surfaces, typography, scrollbars and generic Jellyfin
+   element restyle. Scoped so administration stays readable.
+   ============================================================ */
+
+html {
+    background: var(--jmp-bg);
+}
+
+body,
+.mainAnimatedPages,
+.skinBody,
+.page,
+.libraryPage,
+.dialog,
+.paperList,
+.formDialog,
+.documentFont,
+body.forceStaticBackdrop .backgroundContainer {
+    font-family: var(--jmp-font);
+}
+
+body,
+.skinBody,
+.page:not(.dashboardPage),
+.libraryPage,
+.homePage,
+.mainAnimatedPages,
+.mainAnimatedPage,
+.backgroundContainer,
+.dashboardDocument .dashboardPage {
+    background-color: var(--jmp-bg);
+    color: var(--jmp-text-primary);
+}
+
+/* The app backdrop layer stays pitch black between pages */
+.backdropContainer,
+.backgroundContainer {
+    background-color: var(--jmp-bg);
+}
+
+/* Jellyfin's rotating page backdrop is dimmed hard so text stays readable */
+.backdropImage {
+    opacity: 0.45;
+}
+
+/* ---------- Typography ---------- */
+
+.pageTitle,
+.pageTitleWithLogo,
+.sectionTitle,
+h1, h2, h3,
+.libraryPage .emby-tabs .emby-button,
+.detailItemName,
+.parentName {
+    font-family: var(--jmp-font);
+    letter-spacing: -0.01em;
+}
+
+.page,
+.libraryPage,
+.itemDetailPage,
+.listPage,
+.searchPage,
+.dialog {
+    font-size: var(--jmp-font-size-md);
+    color: var(--jmp-text-primary);
+}
+
+.secondaryText,
+.cardText-secondary,
+.itemMiscInfo,
+.programSecondaryTitleText,
+.guideDate,
+.secondary {
+    color: var(--jmp-text-secondary) !important;
+}
+
+/* ---------- Links & generic buttons ---------- */
+
+a,
+.textlink,
+.button-link {
+    color: var(--jmp-blue);
+}
+a:hover,
+.textlink:hover,
+.button-link:hover {
+    color: var(--jmp-blue-hover);
+}
+
+button[is="emby-button"].button-flat,
+.emby-button.button-flat,
+.button-flat {
+    border-radius: 4px;
+    font-family: var(--jmp-font);
+    font-weight: var(--jmp-font-weight-semibold);
+    text-transform: none;
+    letter-spacing: 0.01em;
+}
+
+/* Raised primary actions */
+button[is="emby-button"].button-accent-flat,
+.emby-button.button-accent-flat,
+.raised.button-accent,
+.emby-button.raised,
+button[is="emby-button"].raised,
+.fab[data-role="none"],
+.mdl-button-accent {
+    background: var(--jmp-blue);
+    color: #fff;
+    border-radius: 4px;
+}
+button[is="emby-button"].button-accent-flat:hover,
+.emby-button.button-accent-flat:hover,
+.emby-button.raised:hover,
+button[is="emby-button"].raised:hover {
+    background: var(--jmp-blue-hover);
+}
+
+/* ---------- Inputs ---------- */
+
+.emby-input,
+.emby-select,
+.emby-textarea,
+.MuiInputBase-root {
+    background: var(--jmp-surface-2);
+    color: var(--jmp-text-primary);
+    border-radius: 4px;
+}
+
+.emby-input:focus,
+.emby-select:focus,
+.emby-textarea:focus {
+    border-color: var(--jmp-blue);
+    box-shadow: 0 0 0 1px var(--jmp-blue);
+}
+
+.emby-checkbox:checked + span + .checkboxOutline,
+.emby-checkbox:checked + .checkboxOutline {
+    border-color: var(--jmp-blue);
+}
+
+/* ---------- Scrollbars ---------- */
+
+::-webkit-scrollbar {
+    width: 0.55em;
+    height: 0.55em;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--jmp-surface-3);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #2b2b30;
+}
+
+html {
+    scrollbar-color: var(--jmp-surface-3) transparent;
+    scrollbar-width: thin;
+}
+
+/* ---------- Cards shared foundation ---------- */
+
+.card,
+.cardBox {
+    font-family: var(--jmp-font);
+}
+
+.cardImageContainer,
+.cardImageIcon,
+.cardPadder,
+.cardImageButton,
+.cardContent {
+    border-radius: var(--jmp-card-radius);
+    background-color: var(--jmp-surface-1);
+}
+
+.cardScalable {
+    transition: transform var(--jmp-dur-card) var(--jmp-ease);
+    will-change: transform;
+}
+
+/* Poster/landscape card art fills the padded area edge to edge */
+.cardImageContainer.coveredImage,
+.cardImageContainer.coveredImage-img {
+    background-size: cover;
+    background-position: center top;
+}
+
+/* Kill Jellyfin's default card chrome that fights the dense look */
+.cardFooter {
+    padding-top: 0.4em;
+}
+.cardFooter-votedata {
+    margin-top: 0;
+}
+.cardFooter .cardText {
+    padding: 0.15em 0.2em;
+}
+
+.cardText {
+    font-size: var(--jmp-font-size-sm);
+    font-weight: var(--jmp-font-weight-medium);
+    color: var(--jmp-text-primary);
+}
+.cardText-secondary {
+    font-weight: var(--jmp-font-weight-normal);
+}
+
+/* ---------- Generic overlays / menus ---------- */
+
+.actionSheet,
+.formDialog,
+.dialog,
+.nowPlayingPlaylist,
+.paperList,
+.dialog-fixedSize {
+    background-color: var(--jmp-surface-1);
+    color: var(--jmp-text-primary);
+    border-radius: 6px;
+}
+
+.listItem:hover,
+.listItem-focus,
+.emby-select-focus-color {
+    background: var(--jmp-surface-2);
+}
+
+/* Progress / loading */
+.mdl-progress > .progressbar,
+.itemProgressBar,
+.emby-progressbar .progress-bar,
+.taskProgressInner,
+.mdl-progress > .bufferbar {
+    border-radius: 2px;
+}
+
+.itemProgressBarForeground,
+.progress-bar,
+.mdl-progress > .progressbar {
+    background: var(--jmp-blue);
+}
+
+/* Skeleton loading stays dark */
+.skeletonCard,
+.skeletonItem,
+.itemBackdrop-placeholder {
+    background: var(--jmp-surface-1);
+}
+
+/* Toast notifications */
+.toast {
+    background: var(--jmp-surface-2);
+    color: var(--jmp-text-primary);
+    border-radius: 6px;
+}
+
+/* Keep focus visible — accessibility requirement */
+:focus-visible,
+.emby-button:focus-visible,
+.card:focus-visible,
+.MuiButton-root:focus-visible,
+.MuiIconButton-root:focus-visible {
+    outline: 2px solid var(--jmp-blue);
+    outline-offset: 2px;
+}

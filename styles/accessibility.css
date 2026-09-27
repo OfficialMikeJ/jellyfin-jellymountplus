@@ -1,0 +1,86 @@
+/* ============================================================
+   JellymountPlus — Accessibility
+   Reduced-motion support and visible focus. Functionality is
+   preserved; only animation amplitude is reduced.
+   ============================================================ */
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+    }
+
+    /* Hero: no crossfade zoom, content swaps instantly */
+    .jmp-hero-backdrop {
+        transition: opacity 200ms linear !important;
+        transform: none !important;
+    }
+    .jmp-hero-content {
+        transition: opacity 200ms linear !important;
+        transform: none !important;
+    }
+    .jmp-hero-card {
+        transition: opacity 150ms linear !important;
+        transform: none !important;
+    }
+    .jmp-hero-card.is-selected {
+        transform: none !important;
+        box-shadow: 0 0 0 2px #fff;
+    }
+
+    /* Cards: no scale */
+    .itemsContainer .card .cardScalable {
+        transform: none !important;
+    }
+    .itemsContainer .card:hover .cardScalable {
+        transform: none !important;
+    }
+
+    /* Preview: fade only */
+    .jmp-preview {
+        transition: opacity 160ms linear !important;
+        transform: none !important;
+    }
+    .jmp-preview.is-open,
+    .jmp-preview.is-closing {
+        transform: none !important;
+    }
+
+    /* Nav transition is colour-only anyway */
+    header.MuiAppBar-root,
+    .skinHeader {
+        transition: background-color 150ms linear !important;
+    }
+}
+
+/* ---------- Focus visibility ---------- */
+
+/* Keep outlines for keyboard users — never fully removed. */
+.card:focus-visible,
+.jmp-hero-card:focus-visible,
+.jmp-btn:focus-visible,
+.itemsContainer .card:focus-within .cardImageContainer,
+.emby-scrollbuttons-button:focus-visible,
+a:focus-visible {
+    outline: 2px solid var(--jmp-blue);
+    outline-offset: 2px;
+}
+
+/* Slightly stronger focus on TV layout */
+.layout-tv .card:focus-visible .cardImageContainer,
+.layout-tv .emby-button-focus .cardImageContainer {
+    outline: 3px solid var(--jmp-blue);
+    outline-offset: 2px;
+}
+
+/* Skip the preview animation delay when the OS asks for it */
+@media (prefers-reduced-motion: reduce) {
+    .jmp-preview {
+        --jmp-preview-scale-in: 1;
+    }
+}

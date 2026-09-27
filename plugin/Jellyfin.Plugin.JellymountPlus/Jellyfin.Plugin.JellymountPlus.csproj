@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>Jellyfin.Plugin.JellymountPlus</RootNamespace>
+    <AssemblyName>JellymountPlusPlugin</AssemblyName>
+    <Version>1.0.0.0</Version>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <EnableDefaultEmbeddedResourceItems>true</EnableDefaultEmbeddedResourceItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Jellyfin.Controller" Version="12.1.0">
+      <PrivateAssets>all</PrivateAssets>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+    <PackageReference Include="Jellyfin.Model" Version="12.1.0">
+      <PrivateAssets>all</PrivateAssets>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <!-- Config page is a normal project asset; theme bundles are linked in
+       from the repo's dist/ and assets/ output so they stay in sync. -->
+  <ItemGroup>
+    <EmbeddedResource Include="Web\**\*.html" />
+    <EmbeddedResource Include="Configuration\*.html" />
+    <EmbeddedResource Include="..\..\dist\jellymountplus.css" Link="Web\theme.css" />
+    <EmbeddedResource Include="..\..\dist\jellymountplus-full.css" Link="Web\theme-full.css" />
+    <EmbeddedResource Include="..\..\dist\jellymountplus-extras.js" Link="Web\extras.js" />
+    <EmbeddedResource Include="..\..\assets\logo\jellymountplus.svg" Link="Web\logo.svg" />
+  </ItemGroup>
+
+</Project>

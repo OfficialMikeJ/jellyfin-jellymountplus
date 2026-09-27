@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>JellymountPlus</title>
+</head>
+<body>
+<div id="JellymountPlusConfigPage" data-role="page" class="page type-interior pluginConfigurationPage"
+     data-require="emby-input,emby-button,emby-checkbox,emby-select">
+  <div class="content-primary">
+    <h2>JellymountPlus Theme</h2>
+    <p>Cinematic dark theme for Jellyfin Web. Applying it writes an
+      <code>@import</code> into Dashboard → Branding → Custom CSS — no file
+      edits, works in Docker.</p>
+
+    <div class="verticalSection" style="margin:1.5em 0;">
+      <b>Status:</b> <span id="jmpStatus">checking…</span>
+      <div style="margin-top:.8em;display:flex;gap:.6em;">
+        <button id="jmpApply" is="emby-button" class="raised button-submit">Apply theme</button>
+        <button id="jmpRemove" is="emby-button" class="raised">Remove theme</button>
+      </div>
+    </div>
+
+    <form class="jellymountPlusForm">
+      <h3>Optional extras</h3>
+      <p class="fieldDescription">Extras add UI Jellyfin doesn't have (home hero, featured
+        selector, expanded hover previews, NEW/JUST ADDED badges). They require a
+        script tag — see the note below.</p>
+
+      <div class="checkboxContainer">
+        <label><input is="emby-checkbox" type="checkbox" id="extrasEnabled" />
+          <span>Enable extras bundle (serves extras.js and the full stylesheet)</span></label>
+      </div>
+      <div class="checkboxContainer">
+        <label><input is="emby-checkbox" type="checkbox" id="heroAutoRotate" />
+          <span>Hero auto-rotation</span></label>
+      </div>
+      <div class="inputContainer">
+        <label class="inputLabel" for="heroRotateMs">Hero rotation interval (ms)</label>
+        <input is="emby-input" type="number" id="heroRotateMs" min="4000" step="500" />
+      </div>
+      <div class="inputContainer">
+        <label class="inputLabel" for="hoverDelayMs">Hover preview delay (ms)</label>
+        <input is="emby-input" type="number" id="hoverDelayMs" min="100" step="20" />
+      </div>
+      <div class="inputContainer">
+        <label class="inputLabel" for="logoText">Logo text</label>
+        <input is="emby-input" type="text" id="logoText" />
+      </div>
+      <div class="checkboxContainer">
+        <label><input is="emby-checkbox" type="checkbox" id="debug" />
+          <span>Debug logging</span></label>
+      </div>
+
+      <div style="margin-top:.8em;">
+        <button type="submit" is="emby-button" class="raised button-submit">Save</button>
+      </div>
+    </form>
+
+    <div id="jmpExtrasNote" style="display:none;margin-top:1.5em;" class="verticalSection">
+      <h3>Extras need one script tag</h3>
+      <p>Jellyfin can't inject scripts from a plugin alone. With extras enabled, add via
+        <b>JavaScript Injector</b> or <b>File Transformation</b>:</p>
+      <pre style="background:#101418;padding:1em;border-radius:6px;overflow:auto;">&lt;script defer src="/JellymountPlus/Assets/extras.js"&gt;&lt;/script&gt;</pre>
+      <p>Or paste the JS Injector snippet: <code>var s=document.createElement('script');s.src='/JellymountPlus/Assets/extras.js';s.defer=true;document.head.appendChild(s);</code></p>
+      <p>After enabling extras, click <b>Apply theme</b> again so the full stylesheet is used.</p>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  var JmpPluginId = '4b7a2e51-3c6f-4d8e-9a1b-5d7f2c8e0a34';
+  var jmpPage = document.getElementById('JellymountPlusConfigPage');
+
+  function jmpPost(path) {
+    return ApiClient.ajax({ type: 'POST', url: ApiClient.getUrl(path) });
+  }
+
+  function jmpRefreshStatus() {
+    ApiClient.getJSON(ApiClient.getUrl('JellymountPlus/Status')).then(function (s) {
+      jmpPage.querySelector('#jmpStatus').textContent =
+        s.applied ? 'Applied (' + s.currentImport + ')' : 'Not applied';
+      jmpPage.querySelector('#jmpExtrasNote').style.display = s.extras ? '' : 'none';
+    }).catch(function () {
+      jmpPage.querySelector('#jmpStatus').textContent = 'status check failed';
+    });
+  }
+
+  jmpPage.addEventListener('pageshow', function () {
+    Dashboard.showLoadingMsg();
+    ApiClient.getPluginConfiguration(JmpPluginId).then(function (config) {
+      jmpPage.querySelector('#extrasEnabled').checked = config.ExtrasEnabled;
+      jmpPage.querySelector('#heroAutoRotate').checked = config.HeroAutoRotate;
+      jmpPage.querySelector('#heroRotateMs').value = config.HeroRotateMs;
+      jmpPage.querySelector('#hoverDelayMs').value = config.HoverPreviewDelayMs;
+      jmpPage.querySelector('#logoText').value = config.LogoText;
+      jmpPage.querySelector('#debug').checked = config.Debug;
+      jmpRefreshStatus();
+      Dashboard.hideLoadingMsg();
+    });
+  });
+
+  jmpPage.querySelector('#jmpApply').addEventListener('click', function (e) {
+    e.preventDefault();
+    Dashboard.showLoadingMsg();
+    jmpPost('JellymountPlus/Apply').then(function () {
+      jmpRefreshStatus();
+      Dashboard.hideLoadingMsg();
+      Dashboard.alert('Theme applied. Hard-refresh clients (Ctrl+F5) to see it.');
+    });
+  });
+
+  jmpPage.querySelector('#jmpRemove').addEventListener('click', function (e) {
+    e.preventDefault();
+    Dashboard.showLoadingMsg();
+    jmpPost('JellymountPlus/Remove').then(function () {
+      jmpRefreshStatus();
+      Dashboard.hideLoadingMsg();
+    });
+  });
+
+  jmpPage.querySelector('.jellymountPlusForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    Dashboard.showLoadingMsg();
+    ApiClient.getPluginConfiguration(JmpPluginId).then(function (config) {
+      config.ExtrasEnabled = jmpPage.querySelector('#extrasEnabled').checked;
+      config.HeroAutoRotate = jmpPage.querySelector('#heroAutoRotate').checked;
+      config.HeroRotateMs = parseInt(jmpPage.querySelector('#heroRotateMs').value, 10) || 18000;
+      config.HoverPreviewDelayMs = parseInt(jmpPage.querySelector('#hoverDelayMs').value, 10) || 420;
+      config.LogoText = jmpPage.querySelector('#logoText').value || 'JellymountPlus';
+      config.Debug = jmpPage.querySelector('#debug').checked;
+      ApiClient.updatePluginConfiguration(JmpPluginId, config).then(function (result) {
+        Dashboard.processPluginConfigurationUpdateResult(result);
+        jmpRefreshStatus();
+      });
+    });
+  });
+</script>
+</body>
+</html>

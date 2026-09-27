@@ -1,0 +1,303 @@
+/* ============================================================
+   JellymountPlus — Movie / Series / Episode detail pages
+   Cinematic backdrop hero, logo, metadata ribbon, action row,
+   cast and episode lists restyled to match the theme.
+   ============================================================ */
+
+.itemDetailPage {
+    background: var(--jmp-bg);
+}
+
+/* ---------- Backdrop ---------- */
+
+.itemDetailPage .itemBackdrop {
+    height: clamp(22rem, 68vh, 46rem);
+    background-attachment: scroll; /* fixed attachment is costly */
+    background-position: center 12%;
+    position: relative;
+}
+
+/* Left + bottom + top gradients */
+.itemDetailPage .itemBackdrop::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(to right,
+            rgba(7, 7, 7, 0.88) 0%,
+            rgba(7, 7, 7, 0.5) 30%,
+            transparent 60%),
+        linear-gradient(to top,
+            var(--jmp-bg) 0%,
+            rgba(7, 7, 7, 0.6) 14%,
+            transparent 45%),
+        linear-gradient(to bottom,
+            rgba(0, 0, 0, 0.55) 0%,
+            transparent 18%);
+}
+
+/* ---------- Logo ---------- */
+
+.itemDetailPage .detailLogo {
+    top: 0;
+    left: 0;
+    right: 0;
+    height: clamp(22rem, 68vh, 46rem);
+    width: 100%;
+    background-size: min(26vw, 30rem) auto;
+    background-position: left var(--jmp-page-gutter) bottom 9.5rem;
+    background-repeat: no-repeat;
+    filter: drop-shadow(0 4px 22px rgba(0, 0, 0, 0.55));
+    z-index: 1;
+}
+
+/* ---------- Ribbon (title + meta + poster) ---------- */
+
+.layout-desktop .itemDetailPage .detailRibbon {
+    margin-top: -9.5em;
+    min-height: 9.5em;
+    height: auto;
+    align-items: flex-end;
+    padding-left: calc(var(--jmp-page-gutter) + 11.5rem) !important;
+    padding-right: var(--jmp-page-gutter);
+    z-index: 2;
+}
+
+.layout-desktop .itemDetailPage .detailImageContainer .card {
+    position: absolute;
+    left: var(--jmp-page-gutter);
+    top: auto;
+    bottom: 100%;
+    transform: translateY(9.5em);
+    max-width: none;
+    width: 10.5rem;
+    margin: 0;
+    float: none;
+    z-index: 2;
+}
+
+.layout-desktop .itemDetailPage .detailImageContainer .card .cardImageContainer {
+    border-radius: var(--jmp-card-radius);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+.itemDetailPage .nameContainer {
+    font-size: var(--jmp-font-size-xl);
+    font-weight: var(--jmp-font-weight-bold);
+    letter-spacing: -0.015em;
+    color: #fff;
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.6);
+    line-height: 1.05;
+    margin-bottom: 0.15em;
+}
+
+/* Series name above episode title */
+.itemDetailPage .parentName {
+    font-size: var(--jmp-font-size-lg);
+    font-weight: var(--jmp-font-weight-semibold);
+    color: var(--jmp-text-secondary);
+    margin-bottom: 0.1em;
+}
+
+/* ---------- Metadata ---------- */
+
+.itemMiscInfo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.8em;
+    font-size: var(--jmp-font-size-sm) !important;
+    color: var(--jmp-text-secondary) !important;
+    font-weight: var(--jmp-font-weight-medium);
+}
+
+.itemMiscInfo .mediaInfoItem,
+.itemMiscInfo .itemMiscInfoDetails,
+.itemMiscInfo .starRatingContainer {
+    color: var(--jmp-text-secondary);
+}
+
+.itemMiscInfo .mediaInfoOfficialRating,
+.itemMiscInfo-officialRating {
+    border: 1px solid var(--jmp-border);
+    border-radius: 3px;
+    padding: 0.05em 0.45em;
+    font-size: 0.85em;
+}
+
+.itemMiscInfo .starRatingContainer .material-icons {
+    color: var(--jmp-green);
+}
+
+/* ---------- Action buttons ---------- */
+
+.mainDetailButtons {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0.9rem 0;
+    padding-left: calc(var(--jmp-page-gutter) + 11.5rem);
+    padding-right: var(--jmp-page-gutter);
+}
+
+.mainDetailButtons .detailButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55em;
+    font-family: var(--jmp-font);
+    font-size: var(--jmp-font-size-sm);
+    font-weight: var(--jmp-font-weight-semibold);
+    border-radius: 4px;
+    padding: 0.7em 1.3em;
+    text-transform: none;
+    letter-spacing: 0.01em;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid var(--jmp-border-soft);
+    transition: background-color var(--jmp-dur-fast) var(--jmp-ease),
+                border-color var(--jmp-dur-fast) var(--jmp-ease);
+}
+
+.mainDetailButtons .detailButton:hover {
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.mainDetailButtons .detailButton .detailButton-icon {
+    font-size: 1.3em;
+}
+
+/* Primary play/resume gets the brand blue */
+.mainDetailButtons .btnPlay,
+.mainDetailButtons .btnReplay {
+    background: var(--jmp-blue);
+    border-color: var(--jmp-blue);
+}
+.mainDetailButtons .btnPlay:hover,
+.mainDetailButtons .btnReplay:hover {
+    background: var(--jmp-blue-hover);
+    border-color: var(--jmp-blue-hover);
+}
+
+/* Favorite / played toggles show state clearly */
+.mainDetailButtons .btnUserRating[data-isfavorite="true"] .detailButton-icon,
+.mainDetailButtons .btnPlaystate[data-played="true"] .detailButton-icon {
+    color: var(--jmp-blue-hover);
+}
+.mainDetailButtons .btnUserRating[data-isfavorite="true"],
+.mainDetailButtons .btnPlaystate[data-played="true"] {
+    border-color: var(--jmp-blue);
+    background: rgba(0, 100, 255, 0.22);
+}
+
+/* ---------- Page body ---------- */
+
+.detailPagePrimaryContent {
+    padding-left: calc(var(--jmp-page-gutter) + 11.5rem) !important;
+    padding-right: var(--jmp-page-gutter) !important;
+}
+
+.detailPagePrimaryContent .itemOverview,
+.detailPagePrimaryContent .itemDetailsGroup {
+    max-width: 62rem;
+}
+
+.itemOverview {
+    color: var(--jmp-text-secondary) !important;
+    font-size: var(--jmp-font-size-md);
+    line-height: 1.55;
+}
+
+/* Section headings inside details (Cast / Episodes / More Like This) */
+.itemDetailPage .verticalSection .sectionTitle,
+.itemDetailPage .detailSection .sectionTitle,
+.detailVerticalSection .sectionTitle {
+    font-size: var(--jmp-font-size-lg);
+    font-weight: var(--jmp-font-weight-medium);
+    color: var(--jmp-text-primary);
+    margin-bottom: var(--jmp-rail-title-gap);
+}
+
+/* ---------- Cast / people cards ---------- */
+
+.itemDetailPage .card.portraitCard,
+.itemDetailPage .castCard,
+.itemsContainer .card.personCard {
+    border-radius: var(--jmp-card-radius);
+}
+
+.itemDetailPage .itemsContainer .card {
+    margin: 0;
+}
+
+.itemDetailPage .itemsContainer.vertical-wrap,
+.itemDetailPage [is="emby-scroller"] .scrollSlider {
+    padding-left: 0;
+    gap: var(--jmp-rail-gap);
+}
+
+/* ---------- Season selector / tabs ---------- */
+
+.itemDetailPage .emby-tabs {
+    border-bottom: 1px solid var(--jmp-border-soft);
+}
+.itemDetailPage .emby-tabs .emby-button {
+    color: var(--jmp-text-secondary);
+    font-weight: var(--jmp-font-weight-medium);
+    text-transform: none;
+}
+.itemDetailPage .emby-tabs .emby-button.emby-tab-button-active {
+    color: #fff;
+    border-bottom-color: var(--jmp-blue);
+}
+
+.itemDetailPage .emby-select {
+    background: var(--jmp-surface-2);
+    border-radius: 4px;
+    color: var(--jmp-text-primary);
+}
+
+/* ---------- Episode list ---------- */
+
+.episodeCard,
+.itemDetailPage .listItem {
+    border-radius: var(--jmp-card-radius);
+    background: transparent;
+}
+.itemDetailPage .listItem:hover,
+.itemDetailPage .listItem-border:hover {
+    background: var(--jmp-surface-1);
+}
+
+.listItem .listItemBodyText,
+.listItemBodyText {
+    color: var(--jmp-text-secondary);
+}
+
+/* Missing episode stills keep shape */
+.itemDetailPage .cardImageContainer:not(.coveredImage) {
+    background: linear-gradient(145deg, var(--jmp-surface-2), var(--jmp-surface-1));
+}
+
+/* ---------- Genres & links row ---------- */
+
+.detailSection a,
+.genreLink {
+    color: var(--jmp-text-secondary);
+}
+.detailSection a:hover,
+.genreLink:hover {
+    color: #fff;
+}
+
+/* ---------- Recording / live indicators ---------- */
+
+.recordingProgressBar::-webkit-progress-value,
+.recordingProgressBar::-moz-progress-bar {
+    background: var(--jmp-blue);
+}
+.mediaInfoTimerIcon,
+.liveTvChannel .timerIndicator {
+    color: var(--jmp-green);
+}

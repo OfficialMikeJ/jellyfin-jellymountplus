@@ -1,0 +1,249 @@
+/* ============================================================
+   JellymountPlus — Content Rails
+   Dense horizontal rows with compact titles, edge peek,
+   edge-fade and styled arrow controls.
+   ============================================================ */
+
+/* ---------- Page margins ---------- */
+
+.homePage .sections,
+.libraryPage .sectionsContainer,
+.allLibraryPage,
+.itemsContainer.vertical-wrap,
+.libraryPage.padded-left,
+.padded-left { }
+
+.verticalSection,
+.verticalSection-extrabottompadding {
+    margin-bottom: var(--jmp-rail-spacing);
+    position: relative;
+}
+
+/* Full-bleed rows: titles get the gutter, rows run edge to edge
+   so a partial card peeks at the right edge. */
+.homePage .verticalSection .sectionTitleContainer,
+.homePage .verticalSection .sectionTitle-cards,
+.verticalSection .sectionTitleContainer-cards {
+    padding-left: var(--jmp-page-gutter) !important;
+    padding-right: var(--jmp-page-gutter);
+}
+
+/* ---------- Section titles ---------- */
+
+.sectionTitle,
+.sectionTitle-cards,
+.sectionTitleContainer-cards .sectionTitle {
+    font-family: var(--jmp-font);
+    font-size: var(--jmp-font-size-lg);
+    font-weight: var(--jmp-font-weight-medium);
+    color: var(--jmp-text-primary);
+    margin: 0 0 var(--jmp-rail-title-gap) 0;
+    padding: 0;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    border: none;
+}
+
+.sectionTitleContainer,
+.sectionTitleContainer-cards {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75em;
+    margin: 0 0 var(--jmp-rail-title-gap) 0;
+    border-bottom: none;
+}
+
+.sectionTitleContainer-cards .sectionTitle {
+    margin: 0;
+}
+
+/* "More" / see-all link sits next to the title, quiet until hover */
+.sectionTitleTextButton,
+.sectionTitleContainer .sectionTitleTextButton {
+    font-size: var(--jmp-font-size-xs);
+    font-weight: var(--jmp-font-weight-medium);
+    color: var(--jmp-text-muted);
+    text-transform: none;
+    letter-spacing: 0.02em;
+    opacity: 0.75;
+    transition: color var(--jmp-dur-fast) var(--jmp-ease), opacity var(--jmp-dur-fast) var(--jmp-ease);
+}
+.sectionTitleTextButton:hover,
+.sectionTitleContainer:hover .sectionTitleTextButton {
+    color: var(--jmp-text-primary);
+    opacity: 1;
+}
+
+/* ---------- Scroller ---------- */
+
+[is="emby-scroller"],
+.emby-scroller {
+    /* Cards can overflow vertically when scaling — mask is handled by
+       focusscale padding already on the scroller. */
+    position: relative;
+}
+
+[is="emby-scroller"] .scrollSlider,
+.scrollSlider {
+    /* Even, dense horizontal gaps */
+    padding-left: var(--jmp-page-gutter);
+    padding-right: var(--jmp-page-gutter);
+}
+
+.itemsContainer.itemsContainer-scrollX,
+.scrollSlider > .itemsContainer,
+[is="emby-scroller"] .itemsContainer {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    gap: var(--jmp-rail-gap);
+}
+
+/* Edge fade hinting that more content exists off-canvas */
+.verticalSection [is="emby-scroller"]::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: calc(var(--jmp-page-gutter) * 0.9);
+    pointer-events: none;
+    background: linear-gradient(to right, transparent, var(--jmp-bg));
+    opacity: 0;
+    transition: opacity var(--jmp-dur-med) var(--jmp-ease);
+    z-index: 2;
+}
+.verticalSection.jmp-has-more [is="emby-scroller"]::after {
+    opacity: 1;
+}
+
+/* ---------- Arrow buttons ---------- */
+
+.emby-scrollbuttons {
+    min-width: 0;
+    min-height: 0;
+    padding-top: 0;
+    top: -2.1em; /* sit on the section title line */
+    display: flex;
+    gap: 0.35em;
+    align-items: center;
+}
+[dir="ltr"] .emby-scrollbuttons { right: var(--jmp-page-gutter); }
+[dir="rtl"] .emby-scrollbuttons { left: var(--jmp-page-gutter); }
+
+.emby-scrollbuttons-button {
+    width: 2.1em;
+    height: 2.1em;
+    min-width: 0;
+    min-height: 0;
+    padding: 0;
+    border-radius: 4px;
+    background: var(--jmp-surface-2);
+    border: 1px solid var(--jmp-border-soft);
+    color: var(--jmp-text-secondary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color var(--jmp-dur-fast) var(--jmp-ease),
+                color var(--jmp-dur-fast) var(--jmp-ease),
+                opacity var(--jmp-dur-fast) var(--jmp-ease);
+}
+.emby-scrollbuttons-button:hover {
+    background: var(--jmp-surface-3);
+    color: #fff;
+}
+.emby-scrollbuttons-button:disabled,
+.emby-scrollbuttons-button[disabled] {
+    opacity: 0.35;
+    pointer-events: none;
+}
+.emby-scrollbuttons-button > .material-icons {
+    min-width: 0;
+    min-height: 0;
+    font-size: 1.25em;
+}
+
+/* Buttons stay quiet until the row is hovered/focused */
+@media (hover: hover) and (pointer: fine) {
+    .verticalSection .emby-scrollbuttons {
+        opacity: 0;
+        transition: opacity var(--jmp-dur-med) var(--jmp-ease);
+    }
+    .verticalSection:hover .emby-scrollbuttons,
+    .verticalSection:focus-within .emby-scrollbuttons {
+        opacity: 1;
+    }
+}
+
+/* ---------- Custom injected arrows (fallback for non-scroller rows) ---------- */
+
+.jmp-rail-nav {
+    position: absolute;
+    top: 0;
+    display: flex;
+    gap: 0.35em;
+    z-index: 3;
+}
+[dir="ltr"] .jmp-rail-nav { right: var(--jmp-page-gutter); }
+[dir="rtl"] .jmp-rail-nav { left: var(--jmp-page-gutter); }
+
+.jmp-rail-nav button {
+    width: 2.1em;
+    height: 2.1em;
+    border-radius: 4px;
+    border: 1px solid var(--jmp-border-soft);
+    background: var(--jmp-surface-2);
+    color: var(--jmp-text-secondary);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    transition: background-color var(--jmp-dur-fast) var(--jmp-ease),
+                color var(--jmp-dur-fast) var(--jmp-ease);
+}
+.jmp-rail-nav button:hover {
+    background: var(--jmp-surface-3);
+    color: #fff;
+}
+.jmp-rail-nav button:disabled {
+    opacity: 0.35;
+}
+
+/* ---------- Wrapped (non-scrolling) collections of cards ---------- */
+
+.itemsContainer.vertical-wrap {
+    row-gap: 1.1rem;
+    column-gap: var(--jmp-rail-gap);
+    padding-left: var(--jmp-page-gutter);
+    padding-right: var(--jmp-page-gutter);
+}
+
+/* ---------- Library tile buttons ("My Media" section) ---------- */
+
+.card.homePageLibraryCard,
+.libraryTile,
+.itemsContainer .cardButton {
+    border-radius: var(--jmp-card-radius);
+    background: var(--jmp-surface-1);
+    border: 1px solid var(--jmp-border-soft);
+    transition: background-color var(--jmp-dur-fast) var(--jmp-ease),
+                transform var(--jmp-dur-card) var(--jmp-ease);
+}
+.card.homePageLibraryCard:hover,
+.itemsContainer .cardButton:hover {
+    background: var(--jmp-surface-2);
+}
+
+/* ---------- Section-level focus for TV/remote ---------- */
+
+.itemsContainer .card.emby-button-focus .cardImageContainer {
+    outline: 2px solid var(--jmp-blue);
+    outline-offset: 1px;
+}
+
+/* Home tab pages keep a little air under the hero */
+#homeTab .sections {
+    padding-top: 0.5rem;
+}

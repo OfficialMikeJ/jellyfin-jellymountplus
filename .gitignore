@@ -1,0 +1,6 @@
+bin/
+obj/
+dist-staging/
+*.user
+.vs/
+node_modules/

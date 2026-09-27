@@ -1,0 +1,15 @@
+---
+name: "JellymountPlus"
+guid: "4b7a2e51-3c6f-4d8e-9a1b-5d7f2c8e0a34"
+version: "1.0.0"
+jellyfin_version: "12.1.0"
+owner: "OfficialMikeJ"
+nicename: "JellymountPlus"
+description: "Cinematic dark theme for Jellyfin Web 12.1 — near-black surfaces, dense poster rails, restyled detail pages and player OSD. Optional extras layer adds a home hero and hover previews."
+overview: "Applies the JellymountPlus theme via Jellyfin Branding custom CSS; theme assets are served by the plugin itself, so nothing has to be mounted into the container."
+category: "General"
+artifacts:
+  - "JellymountPlusPlugin.dll"
+build_type: "dotnet"
+dotnet_configuration: "Release"
+dotnet_framework: "net10.0"

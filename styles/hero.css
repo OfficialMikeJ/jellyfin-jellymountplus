@@ -1,0 +1,358 @@
+/* ============================================================
+   JellymountPlus — Home Hero
+   Full-bleed cinematic backdrop, left gradient, bottom fade,
+   logo/meta/overview, action buttons and the featured selector.
+   ============================================================ */
+
+.jmp-hero {
+    position: relative;
+    width: 100%;
+    height: var(--jmp-hero-height);
+    margin-top: 0;
+    overflow: hidden;
+    background: var(--jmp-bg);
+    /* Pull under the transparent top nav */
+    isolation: isolate;
+}
+
+.jmp-hero[hidden] {
+    display: none !important;
+}
+
+/* ---------- Backdrop layers (crossfade) ---------- */
+
+.jmp-hero-backdrops {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.jmp-hero-backdrop {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center 18%;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transform: scale(1.01);
+    transition: opacity 900ms var(--jmp-ease),
+                transform 1400ms var(--jmp-ease);
+    will-change: opacity;
+}
+
+.jmp-hero-backdrop.is-active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* ---------- Gradients ---------- */
+
+.jmp-hero-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Left scrim anchors the text column */
+.jmp-hero-gradient-left {
+    background:
+        linear-gradient(to right,
+            rgba(7, 7, 7, 0.92) 0%,
+            rgba(7, 7, 7, 0.62) 26%,
+            rgba(7, 7, 7, 0.18) 52%,
+            transparent 68%);
+}
+
+/* Bottom fade melts the artwork into the page */
+.jmp-hero-gradient-bottom {
+    background:
+        linear-gradient(to top,
+            var(--jmp-bg) 0%,
+            rgba(7, 7, 7, 0.82) 10%,
+            rgba(7, 7, 7, 0.35) 30%,
+            transparent 52%);
+}
+
+/* Top scrim keeps the nav readable over bright artwork */
+.jmp-hero-gradient-top {
+    background:
+        linear-gradient(to bottom,
+            rgba(0, 0, 0, 0.62) 0%,
+            rgba(0, 0, 0, 0.25) 8%,
+            transparent 22%);
+}
+
+/* ---------- Content block ---------- */
+
+.jmp-hero-content {
+    position: absolute;
+    z-index: 3;
+    left: var(--jmp-page-gutter);
+    bottom: clamp(5.5rem, 11vh, 9rem);
+    width: var(--jmp-hero-meta-width);
+    max-width: calc(100% - 2 * var(--jmp-page-gutter));
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(0.55rem, 0.9vw, 0.9rem);
+    transition: opacity 420ms var(--jmp-ease), transform 420ms var(--jmp-ease);
+}
+
+.jmp-hero.is-fading .jmp-hero-content {
+    opacity: 0;
+    transform: translateY(6px);
+}
+
+.jmp-hero-logo {
+    max-width: var(--jmp-hero-logo-max);
+    max-height: clamp(4.5rem, 11vw, 11rem);
+    width: auto;
+    object-fit: contain;
+    object-position: left bottom;
+    filter: drop-shadow(0 4px 22px rgba(0, 0, 0, 0.55));
+    margin-bottom: 0.15em;
+}
+
+.jmp-hero-title {
+    margin: 0;
+    font-size: var(--jmp-font-size-xl);
+    font-weight: var(--jmp-font-weight-bold);
+    line-height: 1.04;
+    letter-spacing: -0.015em;
+    color: #fff;
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.6);
+}
+
+/* Metadata line: year · rating · runtime · quality */
+.jmp-hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.9em;
+    font-size: var(--jmp-font-size-sm);
+    font-weight: var(--jmp-font-weight-medium);
+    color: var(--jmp-text-secondary);
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.65);
+}
+
+.jmp-hero-meta .jmp-meta-rating {
+    color: var(--jmp-green);
+    font-weight: var(--jmp-font-weight-semibold);
+}
+
+.jmp-hero-meta .jmp-meta-badge-age {
+    border: 1px solid var(--jmp-border);
+    border-radius: 3px;
+    padding: 0.05em 0.45em;
+    font-size: 0.85em;
+    color: var(--jmp-text-secondary);
+}
+
+/* Overview, clamped to 3 lines */
+.jmp-hero-overview {
+    margin: 0;
+    font-size: var(--jmp-font-size-md);
+    font-weight: var(--jmp-font-weight-normal);
+    line-height: 1.5;
+    color: var(--jmp-text-secondary);
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.7);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ---------- Action buttons ---------- */
+
+.jmp-hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-top: clamp(0.35rem, 0.7vw, 0.75rem);
+}
+
+.jmp-btn {
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55em;
+    font-family: var(--jmp-font);
+    font-size: clamp(0.85rem, 0.95vw, 1rem);
+    font-weight: var(--jmp-font-weight-semibold);
+    border-radius: 4px;
+    padding: 0.75em 1.6em;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: background-color var(--jmp-dur-fast) var(--jmp-ease),
+                color var(--jmp-dur-fast) var(--jmp-ease),
+                border-color var(--jmp-dur-fast) var(--jmp-ease),
+                transform var(--jmp-dur-fast) var(--jmp-ease);
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.jmp-btn:active {
+    transform: scale(0.985);
+}
+
+.jmp-btn .material-icons,
+.jmp-btn .jmp-btn-icon {
+    font-size: 1.35em;
+    line-height: 1;
+    display: inline-flex;
+}
+
+.jmp-btn-play {
+    background: var(--jmp-blue);
+    color: #fff;
+}
+.jmp-btn-play:hover {
+    background: var(--jmp-blue-hover);
+}
+
+.jmp-btn-ghost {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    border: 1px solid var(--jmp-border);
+    backdrop-filter: none;
+}
+.jmp-btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Icon-round variant for My List */
+.jmp-btn-icon-round {
+    width: 2.9em;
+    height: 2.9em;
+    padding: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    border: 1px solid var(--jmp-border);
+}
+.jmp-btn-icon-round:hover {
+    background: rgba(255, 255, 255, 0.22);
+}
+.jmp-btn-icon-round.is-saved {
+    border-color: var(--jmp-blue);
+    background: rgba(0, 100, 255, 0.25);
+}
+.jmp-btn-icon-round.is-saved .material-icons {
+    color: var(--jmp-blue-hover);
+}
+
+/* ---------- Extras mode: hero runs edge-to-edge under the nav ---------- */
+
+/* jellyfin-web's OffsetAppBar renders a spacer div after the fixed AppBar;
+   drop it on home so the hero slides under the translucent nav. */
+html.jmp-hero-active header.MuiAppBar-root + div[aria-hidden="true"] {
+    display: none;
+}
+
+/* ---------- Featured selector (bottom-right posters) ---------- */
+
+.jmp-hero-selector {
+    position: absolute;
+    z-index: var(--jmp-z-hero-selector);
+    right: var(--jmp-page-gutter);
+    bottom: clamp(1.4rem, 3.2vh, 2.6rem);
+    display: flex;
+    align-items: flex-end;
+    gap: var(--jmp-selector-gap);
+    /* ~5 cards + a sliver of the next, like the reference; extras scroll. */
+    max-width: min(48%, calc(5.35 * var(--jmp-selector-card-w) + 5 * var(--jmp-selector-gap) + 8px));
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 6px 4px;
+}
+
+.jmp-hero-selector::-webkit-scrollbar {
+    display: none;
+}
+
+.jmp-hero-card {
+    appearance: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    position: relative;
+    flex: 0 0 auto;
+    width: var(--jmp-selector-card-w);
+    aspect-ratio: 2 / 3;
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--jmp-surface-1) center/cover no-repeat;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+    opacity: 0.6;
+    transform-origin: bottom center;
+    transform: scale(0.92);
+    transition: transform var(--jmp-dur-med) var(--jmp-ease),
+                opacity var(--jmp-dur-med) var(--jmp-ease),
+                box-shadow var(--jmp-dur-med) var(--jmp-ease);
+}
+
+.jmp-hero-card img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.jmp-hero-card:hover,
+.jmp-hero-card:focus-visible {
+    opacity: 0.95;
+    transform: scale(0.98);
+}
+
+.jmp-hero-card.is-selected {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9),
+                0 8px 28px rgba(0, 0, 0, 0.6);
+}
+
+/* Hide selector while hero has a single featured item */
+.jmp-hero-selector[data-count="1"],
+.jmp-hero-selector[data-count="0"] {
+    display: none;
+}
+
+/* ---------- Small screens ---------- */
+
+.jmp-hero-compact .jmp-hero-content {
+    bottom: clamp(4rem, 9vh, 6rem);
+}
+
+/* ---------- Loading skeleton ---------- */
+
+.jmp-hero.jmp-skeleton .jmp-hero-backdrop {
+    opacity: 0;
+}
+.jmp-hero.jmp-skeleton::before {
+    content: "";
+    position: absolute;
+    left: var(--jmp-page-gutter);
+    bottom: clamp(5.5rem, 11vh, 9rem);
+    width: min(30rem, 60%);
+    height: 14rem;
+    border-radius: 8px;
+    background: linear-gradient(100deg,
+        var(--jmp-surface-1) 40%,
+        var(--jmp-surface-2) 50%,
+        var(--jmp-surface-1) 60%);
+    background-size: 200% 100%;
+    animation: jmp-shimmer 1.6s linear infinite;
+}
+
+@keyframes jmp-shimmer {
+    from { background-position: 150% 0; }
+    to   { background-position: -50% 0; }
+}

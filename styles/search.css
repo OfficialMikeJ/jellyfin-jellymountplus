@@ -1,0 +1,102 @@
+/* ============================================================
+   JellymountPlus — Search
+   Dark, integrated search page: big field, quiet icon, themed
+   result rails and suggestion chips.
+   ============================================================ */
+
+#searchPage,
+.searchPage {
+    background: var(--jmp-bg);
+    color: var(--jmp-text-primary);
+}
+
+.searchFields {
+    padding-left: var(--jmp-page-gutter);
+    padding-right: var(--jmp-page-gutter);
+    margin-top: calc(var(--jmp-nav-height) + 2vh);
+    margin-bottom: 1.5rem;
+}
+
+.searchFieldsInner {
+    max-width: 46rem;
+    background: var(--jmp-surface-1);
+    border: 1px solid var(--jmp-border-soft);
+    border-radius: 6px;
+    padding: 0.4em 1em;
+    transition: border-color var(--jmp-dur-fast) var(--jmp-ease),
+                background-color var(--jmp-dur-fast) var(--jmp-ease);
+}
+
+.searchFieldsInner:focus-within {
+    border-color: var(--jmp-blue);
+    background: var(--jmp-surface-2);
+}
+
+.searchfields-icon {
+    color: var(--jmp-text-muted);
+    margin-right: 0.6em;
+}
+
+.searchFieldsInner:focus-within .searchfields-icon {
+    color: var(--jmp-blue-hover);
+}
+
+.searchfields-txtSearch,
+.searchfields-txtSearch.emby-input {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: #fff;
+    font-family: var(--jmp-font);
+    font-size: var(--jmp-font-size-lg);
+    font-weight: var(--jmp-font-weight-medium);
+    padding: 0.5em 0;
+}
+
+.searchfields-txtSearch::placeholder {
+    color: var(--jmp-text-muted);
+}
+
+.searchFieldsInner .btnClearSearch,
+.searchFields .paper-icon-button-light {
+    color: var(--jmp-text-muted);
+}
+.searchFieldsInner .btnClearSearch:hover {
+    color: #fff;
+}
+
+/* Result sections reuse the rail styling */
+#searchPage .verticalSection,
+.searchResults .verticalSection {
+    margin-bottom: var(--jmp-rail-spacing);
+}
+
+/* Suggestion chips */
+.searchSuggestions .itemsContainer,
+.searchSuggestionsList {
+    padding-left: var(--jmp-page-gutter);
+    padding-right: var(--jmp-page-gutter);
+}
+
+.searchSuggestions .emby-button,
+.searchSuggestions button[is="emby-button"] {
+    background: var(--jmp-surface-1);
+    border: 1px solid var(--jmp-border-soft);
+    border-radius: 4px;
+    color: var(--jmp-text-secondary);
+    font-weight: var(--jmp-font-weight-medium);
+    text-transform: none;
+}
+.searchSuggestions .emby-button:hover {
+    background: var(--jmp-surface-2);
+    color: #fff;
+}
+
+/* "No results" messaging */
+#searchPage .noItemsMessage,
+.searchResults .centerMessage {
+    color: var(--jmp-text-muted);
+    font-size: var(--jmp-font-size-lg);
+    text-align: center;
+    padding: 3rem var(--jmp-page-gutter);
+}

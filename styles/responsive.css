@@ -1,0 +1,168 @@
+/* ============================================================
+   JellymountPlus — Responsive
+   Mobile, tablet, ultrawide and 4K tuning. Base sizes are already
+   fluid via clamp()/vw; these breakpoints adjust density.
+   ============================================================ */
+
+/* ---------- Large desktop / 1440p ---------- */
+@media all and (min-width: 100em) {
+    :root {
+        --jmp-poster-width: clamp(10rem, 10.2vw, 17rem);
+        --jmp-landscape-width: clamp(17rem, 18.5vw, 28rem);
+        --jmp-hero-height: clamp(34rem, 74vh, 66rem);
+    }
+}
+
+/* ---------- Ultrawide / 4K ---------- */
+@media all and (min-width: 140em) {
+    :root {
+        --jmp-poster-width: clamp(12rem, 8.8vw, 20rem);
+        --jmp-landscape-width: clamp(19rem, 15.5vw, 32rem);
+        --jmp-selector-card-w: clamp(5rem, 4.6vw, 8rem);
+    }
+    .jmp-hero-content {
+        /* Long viewports get a little more air under the hero block */
+        bottom: clamp(7rem, 12vh, 11rem);
+    }
+}
+
+/* ---------- Tablet ---------- */
+@media all and (max-width: 75em) {
+    :root {
+        --jmp-poster-width: clamp(7.5rem, 15vw, 11rem);
+        --jmp-landscape-width: clamp(13rem, 26vw, 19rem);
+        --jmp-hero-height: clamp(24rem, 62vh, 40rem);
+        --jmp-selector-card-w: clamp(3.9rem, 7vw, 5.6rem);
+        --jmp-page-gutter: clamp(0.85rem, 3vw, 2rem);
+    }
+    .jmp-hero-content {
+        width: min(32rem, 70vw);
+    }
+    .jmp-hero-logo {
+        max-height: 6.5rem;
+    }
+    /* Detail page poster shrinks proportionally */
+    .layout-desktop .itemDetailPage .detailImageContainer .card {
+        width: 8.5rem;
+    }
+    .layout-desktop .itemDetailPage .detailRibbon,
+    .mainDetailButtons,
+    .detailPagePrimaryContent {
+        padding-left: calc(var(--jmp-page-gutter) + 9.5rem) !important;
+    }
+}
+
+/* ---------- Mobile ---------- */
+@media all and (max-width: 48em) {
+    :root {
+        --jmp-poster-width: clamp(6.2rem, 28vw, 8.5rem);
+        --jmp-landscape-width: clamp(11.5rem, 62vw, 17rem);
+        --jmp-hero-height: clamp(19rem, 52vh, 30rem);
+        --jmp-nav-height: 3.25rem;
+        --jmp-page-gutter: clamp(0.75rem, 4vw, 1.25rem);
+    }
+
+    /* Hero compresses; selector collapses to dots-sized cards */
+    .jmp-hero-content {
+        width: calc(100% - 2 * var(--jmp-page-gutter));
+        bottom: 4.5rem;
+    }
+    .jmp-hero-overview {
+        -webkit-line-clamp: 2;
+    }
+    .jmp-hero-logo {
+        max-height: 4.5rem;
+        max-width: 55vw;
+    }
+    .jmp-hero-title {
+        font-size: clamp(1.3rem, 6vw, 2rem);
+    }
+    .jmp-hero-selector {
+        /* Poster strip collides with the action row on phones — hide it;
+           rotation still runs and cards remain reachable via keyboard. */
+        display: none;
+    }
+
+    /* Buttons get touch-friendly hit areas */
+    .jmp-btn {
+        padding: 0.8em 1.4em;
+        min-height: 2.6em;
+    }
+    .jmp-btn-icon-round {
+        width: 2.75em;
+        height: 2.75em;
+    }
+
+    /* Nav: keep logo compact */
+    .jmp-logo {
+        font-size: 0.95rem;
+        margin-right: 0.4rem;
+    }
+    header.MuiAppBar-root .MuiToolbar-root::before {
+        width: 8.2rem;
+        height: 1.15rem;
+        margin-right: 0.5rem;
+    }
+    .jmp-user-name {
+        display: none;
+    }
+
+    /* Detail page — poster row folds under the meta */
+    .itemDetailPage .itemBackdrop {
+        height: 38vh;
+    }
+    .itemDetailPage .detailLogo {
+        height: 38vh;
+        background-position: left var(--jmp-page-gutter) bottom 5rem;
+        background-size: 44vw auto;
+    }
+    .mainDetailButtons {
+        padding-left: var(--jmp-page-gutter) !important;
+    }
+    .detailPagePrimaryContent {
+        padding-left: var(--jmp-page-gutter) !important;
+    }
+
+    /* Hover preview disabled — taps navigate directly (CSS guard too) */
+    .jmp-preview {
+        display: none !important;
+    }
+
+    /* Section titles scale down */
+    .sectionTitle-cards,
+    .sectionTitle {
+        font-size: 1.05rem;
+    }
+
+    /* Always-visible arrows are noise on touch — hide injected ones;
+       native scrolling is touch-driven anyway */
+    .jmp-rail-nav {
+        display: none;
+    }
+}
+
+/* ---------- Short landscape screens (phones sideways) ---------- */
+@media all and (max-height: 30em) and (orientation: landscape) {
+    :root {
+        --jmp-hero-height: 88vh;
+    }
+    .jmp-hero-content {
+        bottom: 3.5rem;
+    }
+    .jmp-hero-selector {
+        bottom: 0.8rem;
+    }
+}
+
+/* ---------- Coarse pointers: no hover dependency ---------- */
+@media (hover: none), (pointer: coarse) {
+    .itemsContainer .card:hover .cardScalable {
+        transform: none;
+    }
+    .jmp-hero-card {
+        transform: scale(0.92);
+    }
+    .jmp-hero-card.is-selected {
+        transform: scale(1);
+    }
+}

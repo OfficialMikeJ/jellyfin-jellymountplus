@@ -1,0 +1,144 @@
+/* ============================================================
+   JellymountPlus — Live TV
+   Restyles channels, program cards, the guide grid and
+   recording indicators. Backend functionality untouched.
+   ============================================================ */
+
+.liveTvPage,
+.liveTvContainer {
+    background: var(--jmp-bg);
+    color: var(--jmp-text-primary);
+}
+
+/* ---------- Tabs ---------- */
+
+.liveTvPage .emby-tabs {
+    border-bottom: 1px solid var(--jmp-border-soft);
+    padding-left: var(--jmp-page-gutter);
+}
+.liveTvPage .emby-tabs .emby-button {
+    color: var(--jmp-text-secondary);
+    font-weight: var(--jmp-font-weight-medium);
+    text-transform: none;
+}
+.liveTvPage .emby-tabs .emby-button.emby-tab-button-active {
+    color: #fff;
+    border-bottom: 2px solid var(--jmp-blue);
+}
+
+/* ---------- Channel / program cards ---------- */
+
+.liveTvPage .itemsContainer .card {
+    margin: 0;
+}
+.liveTvPage .itemsContainer {
+    gap: var(--jmp-rail-gap);
+}
+
+.liveTvChannel .cardImageContainer,
+.guide-channelHeaderCell {
+    background: var(--jmp-surface-1);
+    border-radius: var(--jmp-card-radius);
+}
+
+/* Recording state */
+.cardIndicators .timerIndicator,
+.itemDetailPage .timerIndicator {
+    color: #ff5252;
+}
+.cardIndicator-recording,
+.timerIndicator {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+/* ---------- Guide grid ---------- */
+
+.guide-container,
+.tvguide,
+#guideContainer {
+    background: var(--jmp-bg);
+    color: var(--jmp-text-primary);
+    font-family: var(--jmp-font);
+}
+
+.guide-channelHeaderCell {
+    background: var(--jmp-surface-1);
+    border-color: var(--jmp-border-soft) !important;
+    color: var(--jmp-text-primary);
+}
+.guide-channelHeaderCell:hover {
+    background: var(--jmp-surface-2);
+}
+
+.timeslotHeader,
+.guide-channelTimeslotHeader {
+    background: var(--jmp-bg);
+    color: var(--jmp-text-muted);
+    border-color: var(--jmp-border-soft) !important;
+    font-weight: var(--jmp-font-weight-medium);
+}
+
+.programCell {
+    background: var(--jmp-surface-1);
+    border-color: var(--jmp-border-soft) !important;
+    color: var(--jmp-text-primary);
+    font-family: var(--jmp-font);
+    border-radius: 0;
+}
+.programCell:hover,
+.programCell.emby-focus {
+    background: var(--jmp-surface-2);
+}
+
+.programCell .programText {
+    color: var(--jmp-text-primary);
+}
+.programCell .programSecondaryTitleText,
+.programCell .guideProgramSecondaryText {
+    color: var(--jmp-text-muted);
+}
+
+/* Currently-airing cells get the blue accent */
+.programCell.programCell-active,
+.programCell[data-airing="true"] {
+    background: rgba(0, 100, 255, 0.16);
+}
+.programCell .guide-programIndicator,
+.guide-nowPlayingIcon {
+    color: var(--jmp-green);
+}
+
+/* Recording dots + timers in guide */
+.programCell .timerIndicator {
+    color: #ff5252;
+}
+.programCell .seriesTimerIndicator {
+    color: var(--jmp-blue-hover);
+}
+
+/* Guide header row / date bar */
+.guideHeader,
+.guideToolbar {
+    background: var(--jmp-bg);
+    color: var(--jmp-text-primary);
+    border-bottom: 1px solid var(--jmp-border-soft);
+}
+.guideToolbar .emby-button,
+.guideHeader .emby-button {
+    color: var(--jmp-text-secondary);
+}
+.guideToolbar .emby-button:hover,
+.guideHeader .emby-button:hover {
+    color: #fff;
+}
+
+/* Channel number / call-sign cells */
+.guide-channelNumber,
+.channelPrograms .channelName {
+    color: var(--jmp-text-secondary);
+}
+
+/* Upcoming/On Now rows inherit global rail styling — ensure gutters */
+.liveTvPage .pageTabContent .verticalSection {
+    margin-bottom: var(--jmp-rail-spacing);
+}

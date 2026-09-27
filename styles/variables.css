@@ -1,0 +1,88 @@
+/* ============================================================
+   JellymountPlus — Design Tokens
+   Single source of truth for colors, spacing, type and motion.
+   ============================================================ */
+
+:root {
+    /* ---- Surfaces ---- */
+    --jmp-bg: #070707;
+    --jmp-surface-1: #101012;
+    --jmp-surface-2: #171719;
+    --jmp-surface-3: #1f1f22;
+
+    /* ---- Text ---- */
+    --jmp-text-primary: #ffffff;
+    --jmp-text-secondary: #c3c3c7;
+    --jmp-text-muted: #909095;
+
+    /* ---- Brand / actions ---- */
+    --jmp-blue: #0064ff;
+    --jmp-blue-hover: #1976ff;
+    --jmp-blue-active: #0052d6;
+    --jmp-green: #29d66f;
+
+    /* ---- Lines & overlays ---- */
+    --jmp-border: rgba(255, 255, 255, 0.14);
+    --jmp-border-soft: rgba(255, 255, 255, 0.08);
+    --jmp-overlay: rgba(0, 0, 0, 0.78);
+    --jmp-overlay-soft: rgba(0, 0, 0, 0.55);
+    --jmp-scrim-weak: rgba(7, 7, 7, 0.4);
+
+    /* ---- Typography ---- */
+    --jmp-font: Inter, system-ui, -apple-system, "Segoe UI", Arial, Helvetica, sans-serif;
+    --jmp-font-size-xs: clamp(0.68rem, 0.62rem + 0.2vw, 0.78rem);
+    --jmp-font-size-sm: clamp(0.78rem, 0.72rem + 0.25vw, 0.9rem);
+    --jmp-font-size-md: clamp(0.9rem, 0.82rem + 0.3vw, 1rem);
+    --jmp-font-size-lg: clamp(1rem, 0.9rem + 0.45vw, 1.25rem);
+    --jmp-font-size-xl: clamp(1.6rem, 1.1rem + 2.2vw, 3.4rem);
+    --jmp-font-weight-normal: 400;
+    --jmp-font-weight-medium: 500;
+    --jmp-font-weight-semibold: 600;
+    --jmp-font-weight-bold: 700;
+
+    /* ---- Layout ---- */
+    --jmp-page-gutter: clamp(1rem, 3.5vw, 4rem);
+    --jmp-rail-gap: clamp(0.35rem, 0.45vw, 0.6rem);
+    --jmp-rail-title-gap: 0.55rem;
+    --jmp-rail-spacing: clamp(1.4rem, 2.2vw, 2.4rem);
+    --jmp-nav-height: clamp(3.25rem, 4.2vw, 4.25rem);
+
+    /* ---- Cards ---- */
+    --jmp-card-radius: 4px;
+    --jmp-poster-width: clamp(8.5rem, 10.8vw, 15.5rem);
+    --jmp-landscape-width: clamp(15rem, 19.5vw, 26rem);
+    --jmp-card-scale: 1.06;
+    --jmp-card-scale-reduced: 1.02;
+
+    /* ---- Hero ---- */
+    --jmp-hero-height: clamp(30rem, 76vh, 62rem);
+    --jmp-hero-meta-width: clamp(22rem, 34vw, 42rem);
+    --jmp-hero-logo-max: clamp(12rem, 22vw, 30rem);
+    --jmp-selector-card-w: clamp(4.6rem, 5.4vw, 7.25rem);
+    --jmp-selector-gap: clamp(0.4rem, 0.55vw, 0.7rem);
+
+    /* ---- Hover preview ---- */
+    --jmp-preview-w: clamp(19rem, 22vw, 27rem);
+    --jmp-preview-radius: 6px;
+    --jmp-preview-scale-in: 0.82;
+
+    /* ---- Motion ---- */
+    --jmp-dur-fast: 150ms;
+    --jmp-dur-card: 175ms;
+    --jmp-dur-med: 220ms;
+    --jmp-dur-slow: 480ms;
+    --jmp-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+    --jmp-ease-out: cubic-bezier(0.16, 0.32, 0.24, 1);
+
+    /* ---- Z-order ---- */
+    --jmp-z-nav: 1030;
+    --jmp-z-card-hover: 5;
+    --jmp-z-preview: 900;
+    --jmp-z-hero-selector: 6;
+}
+
+/* Live companion values for JS consumers (kept in sync with above). */
+:root {
+    --jmp-hover-preview-delay-ms: 420; /* read by hover-preview.js */
+    --jmp-hero-rotate-ms: 18000;       /* read by hero.js */
+}
