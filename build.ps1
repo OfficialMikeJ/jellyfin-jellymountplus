@@ -15,7 +15,7 @@ $root = Split-Path -Parent $MyInvocation.MyCommand.Path
 # Pure theme: styles Jellyfin's own DOM only. hero.css and hover-preview.css
 # are excluded — they style elements the optional JS layer injects.
 $cssTheme = @(
-    'variables.css', 'base.css', 'navigation.css', 'rails.css',
+    'variables.css', 'base.css', 'mui.css', 'navigation.css', 'rails.css',
     'cards.css', 'details.css', 'search.css',
     'livetv.css', 'player.css', 'responsive.css', 'accessibility.css'
 )

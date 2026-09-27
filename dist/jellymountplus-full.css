@@ -360,6 +360,398 @@ html {
     outline: 2px solid var(--jmp-blue);
     outline-offset: 2px;
 }
+/* ===== styles/mui.css ===== */
+/* ============================================================
+   JellymountPlus — MUI surfaces
+   Jellyfin Web 12.x renders the app shell, dashboard, dialogs and
+   most controls with Material UI. These rules carry the Paramount
+   treatment onto every MUI component so the theme isn't limited
+   to pages that still use the legacy DOM.
+   ============================================================ */
+
+/* ---------- Buttons ---------- */
+
+.MuiButton-root {
+    font-family: var(--jmp-font);
+    font-weight: var(--jmp-font-weight-semibold);
+    text-transform: none;
+    letter-spacing: 0.01em;
+    border-radius: 4px;
+}
+
+.MuiButton-contained,
+.MuiButton-containedPrimary,
+.MuiButton-colorPrimary.MuiButton-contained {
+    background-color: var(--jmp-blue);
+    color: #fff;
+    box-shadow: none;
+}
+.MuiButton-contained:hover,
+.MuiButton-containedPrimary:hover,
+.MuiButton-colorPrimary.MuiButton-contained:hover {
+    background-color: var(--jmp-blue-hover);
+    box-shadow: none;
+}
+.MuiButton-contained:active {
+    background-color: var(--jmp-blue-active);
+}
+
+.MuiButton-textPrimary,
+.MuiButton-colorPrimary:not(.MuiButton-contained) {
+    color: var(--jmp-blue-hover);
+}
+.MuiButton-outlined,
+.MuiButton-outlinedPrimary {
+    border-color: var(--jmp-border);
+    color: var(--jmp-text-primary);
+}
+.MuiButton-outlined:hover,
+.MuiButton-outlinedPrimary:hover {
+    border-color: var(--jmp-blue);
+    background-color: rgba(0, 100, 255, 0.12);
+}
+.MuiButton-outlinedPrimary {
+    border-color: var(--jmp-blue);
+    color: var(--jmp-blue-hover);
+}
+
+.MuiButton-contained.Mui-disabled,
+.MuiButton-root.Mui-disabled {
+    background-color: var(--jmp-surface-3);
+    color: var(--jmp-text-muted);
+}
+
+.MuiIconButton-colorPrimary {
+    color: var(--jmp-blue-hover);
+}
+
+/* ---------- Surfaces ---------- */
+
+.MuiPaper-root:not(.MuiAppBar-root):not(.MuiPopover-paper):not(.MuiDrawer-paper),
+.MuiCard-root,
+.MuiAccordion-root,
+.MuiDialog-paper,
+.MuiAlert-root,
+.MuiSnackbarContent-root {
+    background-color: var(--jmp-surface-1);
+    color: var(--jmp-text-primary);
+    background-image: none;
+}
+
+.MuiDialog-paper {
+    border-radius: 6px;
+    border: 1px solid var(--jmp-border-soft);
+}
+.MuiDialogTitle-root,
+.MuiDialogContent-root,
+.MuiDialogActions-root {
+    color: var(--jmp-text-primary);
+}
+.MuiDialogContent-root {
+    border-color: var(--jmp-border-soft);
+}
+
+.MuiBackdrop-root {
+    background-color: rgba(0, 0, 0, 0.72);
+}
+
+.MuiCard-root {
+    border-radius: var(--jmp-card-radius);
+}
+.MuiCardContent-root,
+.MuiCardHeader-root {
+    color: var(--jmp-text-primary);
+}
+.MuiCardActions-root .MuiButton-root {
+    color: var(--jmp-blue-hover);
+}
+
+.MuiAccordion-root {
+    border: 1px solid var(--jmp-border-soft);
+    border-radius: 4px;
+}
+.MuiAccordionSummary-root:hover {
+    background: var(--jmp-surface-2);
+}
+
+/* ---------- Chips / badges ---------- */
+
+.MuiChip-root {
+    font-family: var(--jmp-font);
+    font-weight: var(--jmp-font-weight-medium);
+    background: var(--jmp-surface-2);
+    color: var(--jmp-text-primary);
+    border-radius: 4px;
+}
+.MuiChip-filled.MuiChip-colorPrimary,
+.MuiChip-colorPrimary.MuiChip-filled {
+    background: var(--jmp-blue);
+    color: #fff;
+}
+.MuiChip-outlined {
+    border-color: var(--jmp-border);
+}
+.MuiChip-outlined.MuiChip-colorPrimary {
+    border-color: var(--jmp-blue);
+    color: var(--jmp-blue-hover);
+}
+.MuiChip-clickable:hover {
+    background: var(--jmp-surface-3);
+}
+.MuiChip-colorPrimary.MuiChip-clickable:hover {
+    background: var(--jmp-blue-hover);
+}
+
+/* ---------- Tabs ---------- */
+
+.MuiTabs-indicator {
+    background-color: var(--jmp-blue);
+    height: 3px;
+    border-radius: 2px 2px 0 0;
+}
+.MuiTab-root {
+    font-family: var(--jmp-font);
+    font-weight: var(--jmp-font-weight-medium);
+    text-transform: none;
+    color: var(--jmp-text-secondary);
+}
+.MuiTab-root.Mui-selected {
+    color: #fff;
+    font-weight: var(--jmp-font-weight-semibold);
+}
+.MuiTab-root:hover {
+    color: #fff;
+}
+
+/* ---------- Form controls ---------- */
+
+.MuiOutlinedInput-root,
+.MuiFilledInput-root {
+    background-color: var(--jmp-surface-2);
+    border-radius: 4px;
+    font-family: var(--jmp-font);
+}
+.MuiOutlinedInput-notchedOutline {
+    border-color: var(--jmp-border-soft);
+}
+.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: var(--jmp-border);
+}
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: var(--jmp-blue);
+    border-width: 1px;
+    box-shadow: 0 0 0 1px var(--jmp-blue);
+}
+.MuiFilledInput-underline::after {
+    border-bottom-color: var(--jmp-blue);
+}
+
+.MuiInputLabel-root {
+    color: var(--jmp-text-muted);
+}
+.MuiInputLabel-root.Mui-focused {
+    color: var(--jmp-blue-hover);
+}
+.MuiInputBase-input,
+.MuiSelect-select {
+    color: var(--jmp-text-primary);
+}
+.MuiInputBase-input::placeholder {
+    color: var(--jmp-text-muted);
+    opacity: 1;
+}
+.MuiInputAdornment-root .MuiSvgIcon-root {
+    color: var(--jmp-text-muted);
+}
+
+.MuiFormControlLabel-label {
+    color: var(--jmp-text-secondary);
+    font-family: var(--jmp-font);
+}
+.MuiFormHelperText-root {
+    color: var(--jmp-text-muted);
+}
+
+.MuiCheckbox-root,
+.MuiRadio-root {
+    color: var(--jmp-text-muted);
+}
+.MuiCheckbox-root.Mui-checked,
+.MuiRadio-root.Mui-checked,
+.MuiCheckbox-root.MuiCheckbox-indeterminate {
+    color: var(--jmp-blue);
+}
+
+.MuiSwitch-track {
+    background-color: var(--jmp-surface-3);
+    opacity: 1;
+}
+.MuiSwitch-switchBase.Mui-checked {
+    color: var(--jmp-blue-hover);
+}
+.MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track {
+    background-color: var(--jmp-blue);
+    opacity: 0.55;
+}
+
+.MuiSlider-rail {
+    background-color: var(--jmp-surface-3);
+    opacity: 1;
+}
+.MuiSlider-track,
+.MuiSlider-thumb {
+    background-color: var(--jmp-blue);
+    border-color: var(--jmp-blue);
+}
+.MuiSlider-valueLabel {
+    background: var(--jmp-surface-2);
+    color: var(--jmp-text-primary);
+}
+
+/* ---------- Lists & menus ---------- */
+
+.MuiList-root,
+.MuiListItemText-primary {
+    color: var(--jmp-text-primary);
+}
+.MuiListItemText-secondary,
+.MuiListItemSecondaryAction-root {
+    color: var(--jmp-text-secondary);
+}
+.MuiListItemButton-root:hover,
+.MuiListItem-root:hover {
+    background-color: var(--jmp-surface-2);
+}
+.MuiListItemButton-root.Mui-selected {
+    background-color: rgba(0, 100, 255, 0.16);
+    border-right: 3px solid var(--jmp-blue);
+}
+.MuiListItemIcon-root {
+    color: var(--jmp-text-secondary);
+}
+.MuiListItemButton-root.Mui-selected .MuiListItemIcon-root {
+    color: var(--jmp-blue-hover);
+}
+
+/* ---------- Feedback ---------- */
+
+.MuiLinearProgress-root {
+    background-color: var(--jmp-surface-3);
+    border-radius: 2px;
+}
+.MuiLinearProgress-bar {
+    background-color: var(--jmp-blue);
+}
+.MuiCircularProgress-colorPrimary {
+    color: var(--jmp-blue);
+}
+
+.MuiTooltip-tooltip,
+.MuiTooltip-tooltipArrow {
+    background-color: var(--jmp-surface-3);
+    color: var(--jmp-text-primary);
+    font-family: var(--jmp-font);
+    font-size: var(--jmp-font-size-xs);
+    border: 1px solid var(--jmp-border-soft);
+}
+.MuiTooltip-arrow {
+    color: var(--jmp-surface-3);
+}
+
+.MuiAlert-standardInfo,
+.MuiAlert-filledInfo {
+    background-color: rgba(0, 100, 255, 0.18);
+    color: var(--jmp-text-primary);
+}
+.MuiAlert-standardSuccess,
+.MuiAlert-filledSuccess {
+    background-color: rgba(41, 214, 111, 0.16);
+    color: var(--jmp-text-primary);
+}
+.MuiAlert-standardError,
+.MuiAlert-filledError {
+    background-color: rgba(214, 41, 41, 0.2);
+    color: var(--jmp-text-primary);
+}
+.MuiAlert-standardWarning,
+.MuiAlert-filledWarning {
+    background-color: rgba(255, 167, 38, 0.16);
+    color: var(--jmp-text-primary);
+}
+
+/* ---------- Typography / links / misc ---------- */
+
+.MuiTypography-root,
+.MuiFormLabel-root,
+.MuiMenuItem-root,
+.MuiTableCell-root,
+.MuiBreadcrumbs-root,
+.MuiPaginationItem-root {
+    font-family: var(--jmp-font);
+}
+.MuiTypography-h1, .MuiTypography-h2, .MuiTypography-h3,
+.MuiTypography-h4, .MuiTypography-h5, .MuiTypography-h6 {
+    color: var(--jmp-text-primary);
+    letter-spacing: -0.01em;
+}
+.MuiTypography-body2,
+.MuiTypography-caption,
+.MuiTableCell-body {
+    color: var(--jmp-text-secondary);
+}
+.MuiLink-root,
+.MuiTypography-link {
+    color: var(--jmp-blue-hover);
+}
+
+.MuiDivider-root {
+    border-color: var(--jmp-border-soft);
+}
+.MuiTableCell-root {
+    border-color: var(--jmp-border-soft);
+    color: var(--jmp-text-primary);
+}
+.MuiTableHead-root .MuiTableCell-root {
+    color: var(--jmp-text-muted);
+    font-weight: var(--jmp-font-weight-semibold);
+}
+.MuiTableRow-root:hover {
+    background-color: var(--jmp-surface-2);
+}
+
+.MuiAvatar-root {
+    background-color: var(--jmp-surface-3);
+    color: var(--jmp-text-primary);
+}
+.MuiAvatar-colorDefault {
+    background-color: var(--jmp-blue);
+    color: #fff;
+}
+
+.MuiPaginationItem-root {
+    color: var(--jmp-text-secondary);
+}
+.MuiPaginationItem-root.Mui-selected {
+    background-color: var(--jmp-blue);
+    color: #fff;
+}
+
+.MuiSkeleton-root {
+    background-color: var(--jmp-surface-2);
+}
+
+.MuiStepLabel-label,
+.MuiStepIcon-root {
+    color: var(--jmp-text-muted);
+}
+.MuiStepLabel-label.Mui-active,
+.MuiStepLabel-label.Mui-completed {
+    color: var(--jmp-text-primary);
+}
+.MuiStepIcon-root.Mui-active,
+.MuiStepIcon-root.Mui-completed {
+    color: var(--jmp-blue);
+}
 /* ===== styles/navigation.css ===== */
 /* ============================================================
    JellymountPlus — Top Navigation

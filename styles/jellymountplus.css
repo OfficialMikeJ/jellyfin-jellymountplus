@@ -9,6 +9,7 @@
 
 @import "./variables.css";
 @import "./base.css";
+@import "./mui.css";
 @import "./navigation.css";
 @import "./hero.css";
 @import "./rails.css";

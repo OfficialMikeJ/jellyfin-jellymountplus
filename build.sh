@@ -13,7 +13,7 @@ cd "$(dirname "$0")"
 
 # Pure theme: styles Jellyfin's own DOM only. hero.css and hover-preview.css
 # are excluded — they style elements the optional JS layer injects.
-css_theme=(variables.css base.css navigation.css rails.css cards.css details.css search.css livetv.css player.css responsive.css accessibility.css)
+css_theme=(variables.css base.css mui.css navigation.css rails.css cards.css details.css search.css livetv.css player.css responsive.css accessibility.css)
 css_extras=(hero.css hover-preview.css)
 js_order=(jellymountplus.js navigation.js hero.js rails.js hover-preview.js details.js)
 
