@@ -1,0 +1,22 @@
+[
+  {
+    "guid": "4b7a2e51-3c6f-4d8e-9a1b-5d7f2c8e0a34",
+    "name": "JellymountPlus",
+    "description": "Cinematic dark theme for Jellyfin Web 12.1 — near-black surfaces, dense poster rails, restyled detail pages and player OSD. Optional extras layer adds a home hero and hover previews.",
+    "overview": "Applies the JellymountPlus theme via Jellyfin Branding custom CSS; theme assets are served by the plugin itself.",
+    "owner": "OfficialMikeJ",
+    "category": "General",
+    "imageUrl": "https://officialmikej.github.io/jellyfin-jellymountplus/logo.svg",
+    "versions": [
+      {
+        "version": "1.0.0.0",
+        "changelog": "Initial release — theme applied via Branding Custom CSS, assets served by the plugin. Optional extras: home hero, featured selector, hover previews, badges.",
+        "targetAbi": "12.1.0.0",
+        "sourceUrl": "https://officialmikej.github.io/jellyfin-jellymountplus/JellymountPlusPlugin_1.0.0.zip",
+        "checksum": "71ad00b39afd072845da05517d56813c",
+        "timestamp": "2026-09-27T13:50:00Z",
+        "status": "Active"
+      }
+    ]
+  }
+]
