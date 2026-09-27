@@ -10,24 +10,28 @@ bundled, no Paramount branding is used, and Jellyfin is never renamed —
 "JellymountPlus" appears only as a small wordmark you can replace in
 `assets/logo/`.
 
-## Install — as a Jellyfin plugin (recommended)
+## Install — plugin repository (recommended)
 
-`dist/JellymountPlusPlugin_1.0.0.zip` contains the plugin
-(`JellymountPlusPlugin.dll` + `meta.json`).
+1. Jellyfin Dashboard → **Plugins** → **Repositories** → **+** and add:
 
-1. Extract the zip into your Jellyfin **config** directory's plugins folder:
-   `<config>/plugins/JellymountPlus/`.
-   - Synology DSM package: `/volume1/@appdata/jellyfin/plugins/JellymountPlus/`
-     (adjust the volume/appdata path to your install).
-   - Docker: the `plugins/` folder inside your mounted config volume.
-   - Windows server: `C:\ProgramData\Jellyfin\Server\plugins\JellymountPlus\`.
-2. Restart Jellyfin.
-3. Dashboard → **Plugins** → **JellymountPlus** → **Apply theme**.
+   ```
+   https://officialmikej.github.io/jellyfin-jellymountplus/manifest.json
+   ```
+
+2. Dashboard → **Plugins** → **Catalog** → install **JellymountPlus**.
+3. Restart Jellyfin (Package Center on DSM / service restart elsewhere).
+4. Dashboard → **Plugins** → **JellymountPlus** → **Apply theme**.
 
 "Apply" writes `@import url('/JellymountPlus/Assets/theme.css')` into
 Dashboard → Branding → Custom CSS. The stylesheet is served by the plugin
-itself, so nothing has to be written into the webroot and it survives
-upgrades. Remove is one click in the same page.
+itself, so nothing touches the webroot and it survives upgrades. Remove is
+one click in the same page.
+
+### Manual install (no repository)
+
+Unzip `dist/JellymountPlusPlugin_1.0.0.zip` into your Jellyfin config's
+plugins folder — e.g. Synology DSM: `/volume1/@appdata/jellyfin/plugins/JellymountPlus/` —
+then restart and Apply as above.
 
 ### Manual CSS alternative (no plugin)
 
