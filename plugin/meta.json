@@ -1,13 +1,14 @@
 {
   "category": "General",
-  "changelog": "Initial release — theme applied via Branding Custom CSS, assets served by the plugin.",
+  "changelog": "Fix @import placement \u00e2\u20ac\u201d must be first rule in Branding CSS or browsers drop it; add status diagnostics.",
+  "checksum": "578f9ee5d0c5f4c1462f9334fe8836b7",
   "description": "Cinematic dark theme for Jellyfin Web 12.1.",
   "guid": "4b7a2e51-3c6f-4d8e-9a1b-5d7f2c8e0a34",
   "name": "JellymountPlus",
   "overview": "Near-black cinematic theme. Optional extras: home hero, featured selector, hover previews, badges.",
   "owner": "OfficialMikeJ",
+  "status": "Active",
   "targetAbi": "12.1.0.0",
-  "timestamp": "2026-09-27T00:00:00Z",
-  "version": "1.0.0.0",
-  "status": "Active"
+  "timestamp": "2026-09-27T18:21:56Z",
+  "version": "1.0.1.0"
 }

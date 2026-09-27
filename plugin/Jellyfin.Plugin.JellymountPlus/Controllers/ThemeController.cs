@@ -39,9 +39,13 @@ public class ThemeController : ControllerBase
     {
         var css = GetBranding().CustomCss ?? string.Empty;
         var applied = css.Contains(ImportMarker, StringComparison.Ordinal);
+        var first = css.TrimStart();
         return new
         {
             applied,
+            /* @import only works as the first rule — surface when something
+               else sits above it so the user knows why nothing renders. */
+            importFirst = first.StartsWith(ImportLine(), StringComparison.Ordinal),
             extras = Plugin.Instance?.Configuration.ExtrasEnabled ?? false,
             currentImport = applied ? ImportLine() : null
         };
@@ -54,10 +58,11 @@ public class ThemeController : ControllerBase
     {
         var options = GetBranding();
         var css = RemoveOurLines(options.CustomCss ?? string.Empty);
-        var line = ImportLine();
+        /* @import must precede all other rules or the browser drops it —
+           prepend, never append. */
         options.CustomCss = string.IsNullOrWhiteSpace(css)
-            ? line
-            : css.TrimEnd() + Environment.NewLine + line;
+            ? ImportLine()
+            : ImportLine() + Environment.NewLine + css.TrimStart();
         _configManager.SaveConfiguration("branding", options);
 
         if (Plugin.Instance is { } p)

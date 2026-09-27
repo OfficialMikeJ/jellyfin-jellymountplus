@@ -10,7 +10,10 @@
     <h2>JellymountPlus Theme</h2>
     <p>Cinematic dark theme for Jellyfin Web. Applying it writes an
       <code>@import</code> into Dashboard → Branding → Custom CSS — no file
-      edits, works in Docker.</p>
+      edits needed.</p>
+    <p class="fieldDescription">If the theme doesn't render after applying:
+      check Settings → your user → <b>Display → "Disable custom CSS"</b> is off,
+      then hard-refresh (Ctrl+F5).</p>
 
     <div class="verticalSection" style="margin:1.5em 0;">
       <b>Status:</b> <span id="jmpStatus">checking…</span>
@@ -77,8 +80,10 @@
 
   function jmpRefreshStatus() {
     ApiClient.getJSON(ApiClient.getUrl('JellymountPlus/Status')).then(function (s) {
-      jmpPage.querySelector('#jmpStatus').textContent =
-        s.applied ? 'Applied (' + s.currentImport + ')' : 'Not applied';
+      var el = jmpPage.querySelector('#jmpStatus');
+      el.textContent = s.applied
+        ? (s.importFirst ? 'Applied' : 'Applied, but blocked — the @import is not the first rule in Branding CSS. Click Apply theme to fix.')
+        : 'Not applied';
       jmpPage.querySelector('#jmpExtrasNote').style.display = s.extras ? '' : 'none';
     }).catch(function () {
       jmpPage.querySelector('#jmpStatus').textContent = 'status check failed';
