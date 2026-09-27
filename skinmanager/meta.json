@@ -1,7 +1,7 @@
 {
   "category": "General",
-  "changelog": "Ported to Jellyfin 12.1 (net10.0). Bundled JellymountPlus skin applies via @import from GitHub Pages.",
-  "checksum": "6fb4d856244db23ee32188d1148e7904",
+  "changelog": "JellymountPlus skin is now fully embedded in the plugin \u2014 no external CSS fetched.",
+  "checksum": "84f24475b55a4d85c15b31499a3a63cd",
   "description": "Skin Manager for Jellyfin \u00e2\u20ac\u201d pick a skin, apply it to Branding custom CSS. Ported for Jellyfin 12.1 and bundled with the JellymountPlus Paramount-style theme.",
   "guid": "e9ca8b8e-ca6d-40e7-85dc-58e536df8eb3",
   "name": "SkinManager",
@@ -9,6 +9,6 @@
   "owner": "OfficialMikeJ",
   "status": "Active",
   "targetAbi": "12.1.0.0",
-  "timestamp": "2026-09-27T18:38:46Z",
-  "version": "2.2.0.0"
+  "timestamp": "2026-09-27T18:52:44Z",
+  "version": "2.2.1.0"
 }
