@@ -9,6 +9,14 @@
     "owner": "OfficialMikeJ",
     "versions": [
       {
+        "changelog": "Full MUI coverage \u2014 Paramount styling applies across the entire modern Jellyfin Web 12.x app, not just legacy pages.",
+        "checksum": "5dd86552198d837d4245f48a946e3d3e",
+        "sourceUrl": "https://officialmikej.github.io/jellyfin-jellymountplus/JellymountPlusPlugin_1.0.2.zip",
+        "targetAbi": "12.1.0.0",
+        "timestamp": "2026-09-27T18:28:10Z",
+        "version": "1.0.2.0"
+      },
+      {
         "changelog": "Fix @import placement \u2014 must be first rule in Branding CSS or browsers drop it; add status diagnostics and Disable-custom-CSS hint.",
         "checksum": "eaef121ab952db022f8642ead40f985a",
         "sourceUrl": "https://officialmikej.github.io/jellyfin-jellymountplus/JellymountPlusPlugin_1.0.1.zip",
